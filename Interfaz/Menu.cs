@@ -21,7 +21,7 @@ namespace Simulacion_TP1
         private void Menu_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the 'dicsysADataSet.InsumoBis' table. You can move, or remove it, as needed.
-            this.insumoBisTableAdapter.Fill(this.dicsysADataSet.InsumoBis);
+           
 
         }
 
@@ -35,6 +35,7 @@ namespace Simulacion_TP1
         {
             Congr_multiplicativo frm = new Congr_multiplicativo();
             frm.Show();
+            //
         }
     }
 }

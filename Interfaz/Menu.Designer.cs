@@ -34,14 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btn_congruencialMultiplicativo = new System.Windows.Forms.Button();
             this.btn_chicuadrado = new System.Windows.Forms.Button();
-            this.insumoBisBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dicsysADataSet = new Simulacion_TP1.dicsysADataSet();
-            this.dicsysADataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.insumoBisTableAdapter = new Simulacion_TP1.dicsysADataSetTableAdapters.InsumoBisTableAdapter();
             this.label3 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.insumoBisBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dicsysADataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dicsysADataSetBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -108,27 +101,7 @@
             this.btn_chicuadrado.Text = "Test de Chi Cuadrado\r\n";
             this.btn_chicuadrado.UseVisualStyleBackColor = false;
             // 
-            // insumoBisBindingSource
-            // 
-            this.insumoBisBindingSource.DataMember = "InsumoBis";
-            this.insumoBisBindingSource.DataSource = this.dicsysADataSet;
-            // 
-            // dicsysADataSet
-            // 
-            this.dicsysADataSet.DataSetName = "dicsysADataSet";
-            this.dicsysADataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // dicsysADataSetBindingSource
-            // 
-            this.dicsysADataSetBindingSource.DataSource = this.dicsysADataSet;
-            this.dicsysADataSetBindingSource.Position = 0;
-            // 
-            // insumoBisTableAdapter
-            // 
-            this.insumoBisTableAdapter.ClearBeforeFill = true;
-            // 
-            // label3
-            // 
+          
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(34, 313);
             this.label3.Name = "label3";
@@ -151,9 +124,6 @@
             this.Name = "Menu";
             this.Text = "Menu";
             this.Load += new System.EventHandler(this.Menu_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.insumoBisBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dicsysADataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dicsysADataSetBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -166,10 +136,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btn_congruencialMultiplicativo;
         private System.Windows.Forms.Button btn_chicuadrado;
-        private System.Windows.Forms.BindingSource dicsysADataSetBindingSource;
-        private dicsysADataSet dicsysADataSet;
-        private System.Windows.Forms.BindingSource insumoBisBindingSource;
-        private dicsysADataSetTableAdapters.InsumoBisTableAdapter insumoBisTableAdapter;
         private System.Windows.Forms.Label label3;
     }
 }
