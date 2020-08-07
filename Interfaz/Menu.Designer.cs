@@ -28,11 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_congruencialMixto = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.btn_congruencialMultiplicativo = new System.Windows.Forms.Button();
             this.btn_chicuadrado = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -58,7 +56,7 @@
             this.btn_congruencialMixto.Name = "btn_congruencialMixto";
             this.btn_congruencialMixto.Size = new System.Drawing.Size(307, 37);
             this.btn_congruencialMixto.TabIndex = 1;
-            this.btn_congruencialMixto.Text = "Congruencial Mixto\r\n";
+            this.btn_congruencialMixto.Text = "Metodos Congruenciales\r\n";
             this.btn_congruencialMixto.UseVisualStyleBackColor = false;
             this.btn_congruencialMixto.Click += new System.EventHandler(this.btn_congruencialMixto_Click);
             // 
@@ -72,21 +70,6 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Generacion de numeros aleatorios";
             // 
-            // btn_congruencialMultiplicativo
-            // 
-            this.btn_congruencialMultiplicativo.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.btn_congruencialMultiplicativo.FlatAppearance.BorderSize = 0;
-            this.btn_congruencialMultiplicativo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DodgerBlue;
-            this.btn_congruencialMultiplicativo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_congruencialMultiplicativo.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn_congruencialMultiplicativo.Location = new System.Drawing.Point(71, 178);
-            this.btn_congruencialMultiplicativo.Name = "btn_congruencialMultiplicativo";
-            this.btn_congruencialMultiplicativo.Size = new System.Drawing.Size(307, 37);
-            this.btn_congruencialMultiplicativo.TabIndex = 3;
-            this.btn_congruencialMultiplicativo.Text = "Congruencial Multiplicativo\r\n";
-            this.btn_congruencialMultiplicativo.UseVisualStyleBackColor = false;
-            this.btn_congruencialMultiplicativo.Click += new System.EventHandler(this.btn_congruencialMultiplicativo_Click);
-            // 
             // btn_chicuadrado
             // 
             this.btn_chicuadrado.BackColor = System.Drawing.SystemColors.InactiveBorder;
@@ -94,16 +77,17 @@
             this.btn_chicuadrado.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DodgerBlue;
             this.btn_chicuadrado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_chicuadrado.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn_chicuadrado.Location = new System.Drawing.Point(71, 221);
+            this.btn_chicuadrado.Location = new System.Drawing.Point(71, 178);
             this.btn_chicuadrado.Name = "btn_chicuadrado";
             this.btn_chicuadrado.Size = new System.Drawing.Size(307, 37);
             this.btn_chicuadrado.TabIndex = 4;
             this.btn_chicuadrado.Text = "Test de Chi Cuadrado\r\n";
             this.btn_chicuadrado.UseVisualStyleBackColor = false;
             // 
-          
+            // label3
+            // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(34, 313);
+            this.label3.Location = new System.Drawing.Point(36, 260);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(396, 13);
             this.label3.TabIndex = 5;
@@ -114,10 +98,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(462, 335);
+            this.ClientSize = new System.Drawing.Size(462, 293);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btn_chicuadrado);
-            this.Controls.Add(this.btn_congruencialMultiplicativo);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btn_congruencialMixto);
             this.Controls.Add(this.label1);
@@ -134,7 +117,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn_congruencialMixto;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btn_congruencialMultiplicativo;
         private System.Windows.Forms.Button btn_chicuadrado;
         private System.Windows.Forms.Label label3;
     }
