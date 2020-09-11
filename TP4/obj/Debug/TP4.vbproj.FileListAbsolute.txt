@@ -85,3 +85,15 @@ C:\Users\JuanCarlos\Desktop\TP Simulación\TP4\TP4_Revision_Final_2\TP4\obj\Debu
 C:\Users\JuanCarlos\Desktop\TP Simulación\TP4\TP4_Revision_Final_2\TP4\obj\Debug\TP4.exe
 C:\Users\JuanCarlos\Desktop\TP Simulación\TP4\TP4_Revision_Final_2\TP4\obj\Debug\TP4.xml
 C:\Users\JuanCarlos\Desktop\TP Simulación\TP4\TP4_Revision_Final_2\TP4\obj\Debug\TP4.pdb
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP4\bin\Debug\TP4.exe.config
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP4\bin\Debug\TP4.exe
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP4\bin\Debug\TP4.pdb
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP4\bin\Debug\TP4.xml
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP4\obj\Debug\TP4.vbprojAssemblyReference.cache
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP4\obj\Debug\TP4.Form1.resources
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP4\obj\Debug\TP4.Resources.resources
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP4\obj\Debug\TP4.vbproj.GenerateResource.cache
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP4\obj\Debug\TP4.vbproj.CoreCompileInputs.cache
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP4\obj\Debug\TP4.exe
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP4\obj\Debug\TP4.xml
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP4\obj\Debug\TP4.pdb

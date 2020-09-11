@@ -126,8 +126,8 @@
             capacidadMaxima = txtCapacidadMaxima.Text
             ProgressBar1.Maximum = cant_dias
             flagP = cant_dias * 0.01
-            ' La cantidad minima de dias es de DIEZ MIL, se usa 5 a modo de prueba, CAMBIAR!!
-            If cant_dias >= 5 Then
+            ' La cantidad minima de dias es de DIEZ MIL.
+            If cant_dias >= 10000 Then
 
                 Dim puedeIniciar As Boolean = False
                 Dim esAleatorio As Boolean = False
@@ -527,7 +527,7 @@
                     End If
 
                 Else
-                        MsgBox("Por favor, ingrese los parámetros del método congruencial")
+                    MsgBox("Por favor, ingrese los parámetros del método congruencial")
                 End If
 
             Else
@@ -586,8 +586,13 @@
         TxtMediaExpTarde.Text = ""
         TxtCantDiaSimulacion.Text = ""
         txtMostrarDesde.Text = ""
-        CType(DgvMontecarlo.DataSource, DataTable).Clear()
-        CType(dgvSoporte.DataSource, DataTable).Clear()
+        If DgvMontecarlo.Rows.Count() > 1 Then
+
+            CType(DgvMontecarlo.DataSource, DataTable).Clear()
+            CType(dgvSoporte.DataSource, DataTable).Clear()
+
+        End If
+
         TxtPrecioCompraFrasco.Text = ""
         txtPrecioVentaFrasco.Text = ""
         txtCapacidadMaxima.Text = ""
