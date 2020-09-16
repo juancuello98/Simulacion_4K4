@@ -330,7 +330,7 @@
 
                             stockAcumulado += stockFinalDia
                             stockPromedioDiario = stockAcumulado / i
-                            promedioCantidadCafeFaltante = ((cantidadFaltanteDiaAnterior * (i - 1)) + cant_Faltante) / i
+                            promedioCantidadCafeFaltante = ((i - 1) * promedioCantidadCafeFaltante + cant_Faltante) * (1.0 / i)
 
                             If tabla.Rows.Count > 0 Then
                                 ingresoDiarioDiaAnterior = valoresAnteriores(1)
