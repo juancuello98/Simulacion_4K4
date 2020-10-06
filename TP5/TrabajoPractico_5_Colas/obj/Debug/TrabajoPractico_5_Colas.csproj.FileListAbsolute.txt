@@ -1,0 +1,8 @@
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP5\TrabajoPractico_5_Colas\bin\Debug\TrabajoPractico_5_Colas.exe
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP5\TrabajoPractico_5_Colas\bin\Debug\TrabajoPractico_5_Colas.pdb
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP5\TrabajoPractico_5_Colas\obj\Debug\TrabajoPractico_5_Colas.csprojAssemblyReference.cache
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP5\TrabajoPractico_5_Colas\obj\Debug\TrabajoPractico_5_Colas.Properties.Resources.resources
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP5\TrabajoPractico_5_Colas\obj\Debug\TrabajoPractico_5_Colas.csproj.GenerateResource.cache
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP5\TrabajoPractico_5_Colas\obj\Debug\TrabajoPractico_5_Colas.csproj.CoreCompileInputs.cache
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP5\TrabajoPractico_5_Colas\obj\Debug\TrabajoPractico_5_Colas.exe
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Practico\Trabajos Practicos\Simulacion_4K4\TP5\TrabajoPractico_5_Colas\obj\Debug\TrabajoPractico_5_Colas.pdb
