@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TrabajoPractico_5_Colas
+namespace TP_5_v2
 {
     static class Program
     {

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TrabajoPractico_5_Colas")]
+[assembly: AssemblyTitle("TP 5 v2")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TrabajoPractico_5_Colas")]
+[assembly: AssemblyProduct("TP 5 v2")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ce2ceda5-f07a-4048-8c3b-6d426dd55cf6")]
+[assembly: Guid("ff79d1cb-7e1b-42e1-96d3-a8548b89806b")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TrabajoPractico_5_Colas.Properties
+namespace TP_5_v2.Properties
 {
 
 
