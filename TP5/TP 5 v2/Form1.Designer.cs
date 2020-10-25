@@ -70,24 +70,25 @@
             this.TxtCostoPizza = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtDuracionTurno = new System.Windows.Forms.TextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtPrepEmpanadas = new System.Windows.Forms.TextBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtPrepLomitos = new System.Windows.Forms.TextBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.label20 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.txtPrepHamburguesa = new System.Windows.Forms.TextBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.label23 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.txtTiempoTolerancia = new System.Windows.Forms.TextBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.label25 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.txtTiempoEntregaGratis = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
+            this.btnCargarEjemplo = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -173,12 +174,14 @@
             // 
             // btnSimular
             // 
-            this.btnSimular.Location = new System.Drawing.Point(695, 191);
+            this.btnSimular.BackColor = System.Drawing.Color.MediumSpringGreen;
+            this.btnSimular.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSimular.Location = new System.Drawing.Point(695, 225);
             this.btnSimular.Name = "btnSimular";
-            this.btnSimular.Size = new System.Drawing.Size(214, 23);
+            this.btnSimular.Size = new System.Drawing.Size(214, 36);
             this.btnSimular.TabIndex = 31;
             this.btnSimular.Text = "Simular";
-            this.btnSimular.UseVisualStyleBackColor = true;
+            this.btnSimular.UseVisualStyleBackColor = false;
             this.btnSimular.Click += new System.EventHandler(this.btnSimular_Click);
             // 
             // groupBox5
@@ -488,17 +491,17 @@
             this.label18.TabIndex = 37;
             this.label18.Text = "Duracion del turno (hs) ";
             // 
-            // textBox1
+            // txtDuracionTurno
             // 
-            this.textBox1.Location = new System.Drawing.Point(821, 124);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(67, 20);
-            this.textBox1.TabIndex = 36;
+            this.txtDuracionTurno.Location = new System.Drawing.Point(821, 124);
+            this.txtDuracionTurno.Name = "txtDuracionTurno";
+            this.txtDuracionTurno.Size = new System.Drawing.Size(67, 20);
+            this.txtDuracionTurno.TabIndex = 36;
             // 
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.label21);
-            this.groupBox7.Controls.Add(this.textBox3);
+            this.groupBox7.Controls.Add(this.txtPrepEmpanadas);
             this.groupBox7.Location = new System.Drawing.Point(223, 36);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(169, 59);
@@ -515,17 +518,17 @@
             this.label21.TabIndex = 1;
             this.label21.Text = "Media";
             // 
-            // textBox3
+            // txtPrepEmpanadas
             // 
-            this.textBox3.Location = new System.Drawing.Point(68, 31);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(95, 20);
-            this.textBox3.TabIndex = 0;
+            this.txtPrepEmpanadas.Location = new System.Drawing.Point(68, 31);
+            this.txtPrepEmpanadas.Name = "txtPrepEmpanadas";
+            this.txtPrepEmpanadas.Size = new System.Drawing.Size(95, 20);
+            this.txtPrepEmpanadas.TabIndex = 0;
             // 
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.label19);
-            this.groupBox8.Controls.Add(this.textBox2);
+            this.groupBox8.Controls.Add(this.txtPrepLomitos);
             this.groupBox8.Location = new System.Drawing.Point(223, 97);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(169, 59);
@@ -542,17 +545,17 @@
             this.label19.TabIndex = 1;
             this.label19.Text = "Tiempo en minutos";
             // 
-            // textBox2
+            // txtPrepLomitos
             // 
-            this.textBox2.Location = new System.Drawing.Point(108, 31);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(55, 20);
-            this.textBox2.TabIndex = 0;
+            this.txtPrepLomitos.Location = new System.Drawing.Point(108, 31);
+            this.txtPrepLomitos.Name = "txtPrepLomitos";
+            this.txtPrepLomitos.Size = new System.Drawing.Size(55, 20);
+            this.txtPrepLomitos.TabIndex = 0;
             // 
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.label20);
-            this.groupBox9.Controls.Add(this.textBox4);
+            this.groupBox9.Controls.Add(this.txtPrepHamburguesa);
             this.groupBox9.Location = new System.Drawing.Point(223, 161);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(169, 59);
@@ -569,17 +572,17 @@
             this.label20.TabIndex = 1;
             this.label20.Text = "Tiempo en minutos";
             // 
-            // textBox4
+            // txtPrepHamburguesa
             // 
-            this.textBox4.Location = new System.Drawing.Point(108, 31);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(55, 20);
-            this.textBox4.TabIndex = 0;
+            this.txtPrepHamburguesa.Location = new System.Drawing.Point(108, 31);
+            this.txtPrepHamburguesa.Name = "txtPrepHamburguesa";
+            this.txtPrepHamburguesa.Size = new System.Drawing.Size(55, 20);
+            this.txtPrepHamburguesa.TabIndex = 0;
             // 
             // groupBox10
             // 
             this.groupBox10.Controls.Add(this.label23);
-            this.groupBox10.Controls.Add(this.textBox5);
+            this.groupBox10.Controls.Add(this.txtTiempoTolerancia);
             this.groupBox10.Location = new System.Drawing.Point(924, 203);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(231, 76);
@@ -596,17 +599,17 @@
             this.label23.TabIndex = 1;
             this.label23.Text = "Tiempo de tolerancia";
             // 
-            // textBox5
+            // txtTiempoTolerancia
             // 
-            this.textBox5.Location = new System.Drawing.Point(128, 29);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(59, 20);
-            this.textBox5.TabIndex = 0;
+            this.txtTiempoTolerancia.Location = new System.Drawing.Point(128, 29);
+            this.txtTiempoTolerancia.Name = "txtTiempoTolerancia";
+            this.txtTiempoTolerancia.Size = new System.Drawing.Size(59, 20);
+            this.txtTiempoTolerancia.TabIndex = 0;
             // 
             // groupBox11
             // 
             this.groupBox11.Controls.Add(this.label25);
-            this.groupBox11.Controls.Add(this.textBox6);
+            this.groupBox11.Controls.Add(this.txtTiempoEntregaGratis);
             this.groupBox11.Location = new System.Drawing.Point(1161, 36);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(206, 76);
@@ -623,12 +626,12 @@
             this.label25.TabIndex = 1;
             this.label25.Text = "Tiempo de tolerancia";
             // 
-            // textBox6
+            // txtTiempoEntregaGratis
             // 
-            this.textBox6.Location = new System.Drawing.Point(128, 29);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(59, 20);
-            this.textBox6.TabIndex = 0;
+            this.txtTiempoEntregaGratis.Location = new System.Drawing.Point(128, 29);
+            this.txtTiempoEntregaGratis.Name = "txtTiempoEntregaGratis";
+            this.txtTiempoEntregaGratis.Size = new System.Drawing.Size(59, 20);
+            this.txtTiempoEntregaGratis.TabIndex = 0;
             // 
             // label22
             // 
@@ -650,11 +653,22 @@
             this.label24.TabIndex = 42;
             this.label24.Text = "Parametros del Pedido";
             // 
+            // btnCargarEjemplo
+            // 
+            this.btnCargarEjemplo.Location = new System.Drawing.Point(695, 192);
+            this.btnCargarEjemplo.Name = "btnCargarEjemplo";
+            this.btnCargarEjemplo.Size = new System.Drawing.Size(214, 27);
+            this.btnCargarEjemplo.TabIndex = 43;
+            this.btnCargarEjemplo.Text = "Cargar ejemplo";
+            this.btnCargarEjemplo.UseVisualStyleBackColor = true;
+            this.btnCargarEjemplo.Click += new System.EventHandler(this.btnCargarEjemplo_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1379, 709);
+            this.Controls.Add(this.btnCargarEjemplo);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.groupBox11);
@@ -664,7 +678,7 @@
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.label18);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtDuracionTurno);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.dataGridView);
@@ -749,24 +763,25 @@
         private System.Windows.Forms.TextBox TxtCostoPizza;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtDuracionTurno;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtPrepEmpanadas;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtPrepLomitos;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox txtPrepHamburguesa;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox txtTiempoTolerancia;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox txtTiempoEntregaGratis;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Button btnCargarEjemplo;
     }
 }
 

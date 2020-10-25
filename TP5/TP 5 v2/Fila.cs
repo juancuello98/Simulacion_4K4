@@ -245,6 +245,7 @@ namespace TP_5_v2
             {
                 string proxEvento = "llegada_Pedido";
                 double min = this.proximaLlegadaPedidoo;
+            // 
 
                 if (min > this.proximaFinPreparacionPedidoE1 && this.proximaFinPreparacionPedidoE1 != 0)
                 {

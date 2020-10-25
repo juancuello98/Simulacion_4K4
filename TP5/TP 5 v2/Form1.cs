@@ -60,27 +60,53 @@ namespace TP_5_v2
             float costo_lomito = int.Parse(this.TxtCostoLomito.Text.Trim()); ;
 
             float i = 0;
-
+            
             tabla.Columns.Add("Reloj");
             tabla.Columns.Add("Evento");
+            tabla.Columns.Add("Pedido N°");
+            tabla.Columns.Add("Proximo N°");
+
+            // Pedido
             tabla.Columns.Add("RND Llegada Pedido");
             tabla.Columns.Add("Tiempo Llegada Pedido");
             tabla.Columns.Add("Proxima Llegada Pedido");
             tabla.Columns.Add("RND Tipo Pedido");
             tabla.Columns.Add("Tipo Pedido");
+            tabla.Columns.Add("Empleado Asignado");
 
+            //Empleados
+            //Empleado 1
+            tabla.Columns.Add("EstadoEmpleado1");
+            tabla.Columns.Add("Pedido1");
+            tabla.Columns.Add("Tipo Pedido At");
+            tabla.Columns.Add("RND Tiempo prep");
+            tabla.Columns.Add("Tiempo preparacion");
+            tabla.Columns.Add("Proximo Fin Prep 1");
+            tabla.Columns.Add("Cola Emp 1");
+            tabla.Columns.Add("Proximo N Pedido");
+            tabla.Columns.Add("Proximo Tipo pedido");
+            //Emplado 2
+            tabla.Columns.Add("EstadoEmpleado2");
+            tabla.Columns.Add("Pedido2");
+            tabla.Columns.Add("Tipo Pedido2");
+            tabla.Columns.Add("RND Tiempo prep2");
+            tabla.Columns.Add("Tiempo preparacion2");
+            tabla.Columns.Add("Proximo Fin Prep 2");
+            tabla.Columns.Add("Cola Emp 2");
+            tabla.Columns.Add("Proximo N Pedido2");
+            tabla.Columns.Add("Proximo Tipo pedido2");
+            //Empleado 3
+            tabla.Columns.Add("EstadoEmpleado3");
+            tabla.Columns.Add("Pedido3");
+            tabla.Columns.Add("Tipo Pedido3");
+            tabla.Columns.Add("RND Tiempo prep3");
+            tabla.Columns.Add("Tiempo preparacion3");
+            tabla.Columns.Add("Proximo Fin Prep 3");
+            tabla.Columns.Add("Cola Emp 3");
+            tabla.Columns.Add("Proximo N Pedido3");
+            tabla.Columns.Add("Proximo Tipo pedido3");
 
-
-            tabla.Columns.Add("Cola Pedido");
-            tabla.Columns.Add("RND Preparacion");
-            tabla.Columns.Add("Tiempo Preparacion");
-            tabla.Columns.Add("Fin Preparacion");
-
-            tabla.Columns.Add("Empleado 1");
-            tabla.Columns.Add("Empleado 2");
-            tabla.Columns.Add("Empleado 3");
-
-
+            //Delivery
             tabla.Columns.Add("Cola Delivery");
             tabla.Columns.Add("RND Delivery");
             tabla.Columns.Add("Tiempo Entrega");
@@ -426,5 +452,46 @@ namespace TP_5_v2
            
         }
 
+        private void btnCargarEjemplo_Click(object sender, EventArgs e)
+        {
+            // Carga de los parametros de elaboracion de los productos en el pedido
+
+            this.txtMediaPreparacionSandwich.Text = "10";
+            this.txtDesvSandwich.Text = "5";
+            this.txtPrepLomitos.Text = "8";
+            this.txtPrepEmpanadas.Text = "3";
+            this.txtLimiteA_PrepPizza.Text = "15";
+            this.txtLimiteB_PrepPizza.Text = "18";
+            this.txtPrepHamburguesa.Text = "8";
+            this.txtPrepLomitos.Text = "8";
+
+            //Carga de parametros de los precios de los pedidos
+
+            this.TxtCostoEmpanada.Text = "25"; // el precio es por unidad
+            this.TxtCostoHamburguesa.Text = "400";
+            this.TxtCostoLomito.Text = "450";
+            this.TxtCostoPizza.Text = "250";
+            this.TxtCostoSandwich.Text = "500";
+
+            //Carga de los parametros del pedido
+
+            this.txtMediaLlegadaPedido.Text = "12"; // en minutos , no en unidades
+            this.txtMediaTiempoDeEntrega.Text = "3";
+            this.txtTiempoTolerancia.Text = "60";
+            this.txtTiempoEntregaGratis.Text = "25";
+
+            //Carga de los parametros de la simulacion
+
+            this.txtMinDesde.Text = "0";
+            this.txtMinHasta.Text = "60";
+            this.txtDuracionTurno.Text = "6"; //En horas.
+            this.txtMinSimulacion.Text = "500"; //Son minutos
+
+
+
+
+
+
+        }
     }
 }
