@@ -20,7 +20,7 @@ namespace TP_5_v2
         DataTable tabla = new DataTable();
         float desde;
         float hasta;
-        float tiempoQA;//sacar esto
+
 
         public Form1()
         {
@@ -36,24 +36,19 @@ namespace TP_5_v2
             //Limpiar tabla
             this.dataGridView.DataSource = null;
             this.dataGridView.Rows.Clear();
-
             this.tabla.Clear();
             this.tabla.Columns.Clear();
 
-            //Tomamos los datos de los inputs
+            //Tomamos los datos de los inputs de la preparacion de pedidos
             int mediaLlegadaPedido = int.Parse(this.txtMediaLlegadaPedido.Text.Trim());
-
             int limiteA_Prep_Pizza = int.Parse(this.txtLimiteA_PrepPizza.Text.Trim());
             int limiteB_Prep_Pizza = int.Parse(this.txtLimiteB_PrepPizza.Text.Trim());
-
             int mediaPrepSandwichNormal = int.Parse(this.txtMediaPreparacionSandwich.Text.Trim());
             int desvPrepSandwichNormal = int.Parse(this.txtDesvSandwich.Text.Trim());
-
             int mediaTiempoEntrega = int.Parse(this.txtMediaTiempoDeEntrega.Text.Trim());
 
-
+            // tomamos lo datos de los inputs de los costos de los pedidos
             float costo_pizza = int.Parse(this.TxtCostoPizza.Text.Trim());
-
             float costo_sandwich = int.Parse(this.TxtCostoSandwich.Text.Trim());
             float costo_empanadas = int.Parse(this.TxtCostoEmpanada.Text.Trim());
             float costo_hamburguesa = int.Parse(this.TxtCostoHamburguesa.Text.Trim()); ;
@@ -83,8 +78,6 @@ namespace TP_5_v2
             tabla.Columns.Add("Tiempo preparacion");
             tabla.Columns.Add("Proximo Fin Prep 1");
             tabla.Columns.Add("Cola Emp 1");
-            tabla.Columns.Add("Proximo N Pedido");
-            tabla.Columns.Add("Proximo Tipo pedido");
             //Emplado 2
             tabla.Columns.Add("EstadoEmpleado2");
             tabla.Columns.Add("Pedido2");
@@ -93,8 +86,6 @@ namespace TP_5_v2
             tabla.Columns.Add("Tiempo preparacion2");
             tabla.Columns.Add("Proximo Fin Prep 2");
             tabla.Columns.Add("Cola Emp 2");
-            tabla.Columns.Add("Proximo N Pedido2");
-            tabla.Columns.Add("Proximo Tipo pedido2");
             //Empleado 3
             tabla.Columns.Add("EstadoEmpleado3");
             tabla.Columns.Add("Pedido3");
@@ -103,8 +94,6 @@ namespace TP_5_v2
             tabla.Columns.Add("Tiempo preparacion3");
             tabla.Columns.Add("Proximo Fin Prep 3");
             tabla.Columns.Add("Cola Emp 3");
-            tabla.Columns.Add("Proximo N Pedido3");
-            tabla.Columns.Add("Proximo Tipo pedido3");
 
             //Delivery
             tabla.Columns.Add("Cola Delivery");
@@ -113,30 +102,31 @@ namespace TP_5_v2
             tabla.Columns.Add("Fin Entrega");
 
             //Inicializamos las filas
-            actual = new Fila(mediaLlegadaPedido, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, "Inicializacion", 0, (Math.Truncate(rnd.NextDouble() * 100) / 100), 0, 0, 0, new Queue<Pedido>(), new Queue<Pedido>(), "Libre", "Libre", "Libre", "Libre");
+            //actual = new Fila(mediaLlegadaPedido, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, "Inicializacion", 0, (Math.Truncate(rnd.NextDouble() * 100) / 100), 0, 0, 0, new Queue<Pedido>(), new Queue<Pedido>(), "Libre", "Libre", "Libre", "Libre");
 
-            anterior = (Fila)actual.Clone();
-            this.vaciarRNDS();
-
-            while (i < cantIteraciones)
+            //anterior = (Fila)actual.Clone();
+            
+            while (i < cantIteraciones) //valor para controlar
 
             {
-
-                if (this.actual.reloj <= hasta && this.actual.reloj >= desde)
-                {
+                if (i == 0) {
+                    actual = new Fila(1, 0, "Inicializacion", 0, mediaLlegadaPedido, 0.53 , "-", "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), "Libre", new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito);
+                    actual.proximaLlegadaPedido(0.43);
                     this.agregarDato(this.actual);
+                    anterior = (Fila)actual.Clone();
                 }
 
-                actual.proximoEvento();
+                anterior = (Fila)actual.Clone();
+                actual.proximoEvento(); // aca se setea el reloj en actual y el evento
 
-                i = this.actual.reloj;
+                //i = this.actual.reloj;
 
 
                 if (i < cantIteraciones)
                 {
 
                     //Anterior por actual
-                    anterior = (Fila)actual.Clone();
+                    //anterior = (Fila)actual.Clone();
                     //Cambios segun evento
                     switch (actual.evento)
                     {
@@ -160,21 +150,13 @@ namespace TP_5_v2
                         //   break;
 
                     }
+                    this.agregarDato(actual);
 
 
-
-                }
-                else
-                {
-                    this.actual.evento = "Finalización";
-                    this.actual.reloj = cantIteraciones;
-                    this.agregarDato(this.anterior);
-                    this.agregarDato(this.actual);
-
-                }
+                }                
 
                 this.dataGridView.DataSource = this.tabla;
-
+                i++;
             }
         }
 
@@ -183,217 +165,184 @@ namespace TP_5_v2
 
         public void llegadaPedido()
         {
-            this.actual.cantLlegadas++;
-            this.actual.evento += " " + this.actual.cantLlegadas.ToString();
-
+            this.actual.numeroPedido = this.actual.proximoNumeroPedido;
+            this.actual.proximoNumeroPedido++;
             this.actual.proximaLlegadaPedido((Math.Truncate(rnd.NextDouble() * 100) / 100));
+            this.actual.rndTipoPedido = Math.Truncate(rnd.NextDouble() * 100) / 100;
+            this.actual.generarTipoDePedido(this.actual.rndTipoPedido);
 
-           
-
-            //Verifico si hay Hay chefs listos
-            if (this.actual.estadoEmpleado1 == "Ocupado" && this.actual.estadoEmpleado2 == "Ocupado" && this.actual.estadoEmpleado3 == "Ocupado")
+            //Asigno el pedido a un empleado, esto cambiarlo despues
+            double randomAsignacion = Math.Truncate(rnd.NextDouble() * 100) / 100;
+            if (randomAsignacion < 0.33)
             {
-                Pedido Pedido_A_Cola = new Pedido(this.actual.reloj, "En Cola Preparacion");
-
-                this.actual.colaLlegadaPedido.Enqueue(Pedido_A_Cola);
-                this.objetos.Add(Pedido_A_Cola);
-                this.tabla.Columns.Add("Pedido " + this.objetos.Count);
-
-
-
+                this.actual.empleadoDesignado = "Empleado 1";
+            }
+            else if (randomAsignacion > 0.33 && randomAsignacion < 0.66)
+            {
+                this.actual.empleadoDesignado = "Empleado 2";
             }
             else
-                {
-                //Calculo el tiempo preparacion
-                string tipo = this.actual.generarTipoDePedido((Math.Truncate(rnd.NextDouble() * 100) / 100));
+            {
+                this.actual.empleadoDesignado = "Empleado 3";
+            }
+            Pedido pedidoActual = new Pedido(this.actual.numeroPedido, this.actual.tipoPedidoPedido);
+            switch (actual.empleadoDesignado)
+            {
+                case "Empleado 1":
+                    if(anterior.estadoEmpleado1 == "Libre")
+                    {
+                        this.actual.estadoEmpleado1 = "Ocupado";
+                        this.actual.rndPreparacionPedidoE1 = Math.Truncate(rnd.NextDouble() * 100) / 100;
+                        double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE1, this.actual.tipoPedidoPedido);
+                        this.actual.tiempoPreparacionPedidoE1 = tiempoPreparacion;
+                        this.actual.proximaFinPreparacionPedidoE1 = this.actual.reloj + this.actual.tiempoPreparacionPedidoE1;
+                        this.actual.numeroPedidoEnPreparacion = pedidoActual.id;
+                        this.actual.tipoPedidoEnPreparacion = pedidoActual.tipoPedido;
+                        break;
 
-                this.actual.tipoPedidoPedido = tipo;
+                    }
+                    if (anterior.estadoEmpleado1 == "Ocupado")
+                    {
+                        this.actual.ColaEmpleado1.Enqueue(pedidoActual);
+                        this.actual.rndPreparacionPedidoE1 = 0;
+                        this.actual.tiempoPreparacionPedidoE1 = 0;
+                    }
 
-                this.actual.rndPreparacionPedido = (Math.Truncate(rnd.NextDouble() * 100) / 100); 
+                    break;
+                case "Empleado 2":
+                    if (anterior.estadoEmpleado2 == "Libre")
+                    {
+                        this.actual.estadoEmpleado2 = "Ocupado";
+                        this.actual.rndPreparacionPedidoE2 = Math.Truncate(rnd.NextDouble() * 100) / 100;
+                        double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE2, this.actual.tipoPedidoPedido);
+                        this.actual.tiempoPreparacionPedidoE2 = tiempoPreparacion;
+                        this.actual.proximaFinPreparacionPedidoE2 = this.actual.reloj + this.actual.tiempoPreparacionPedidoE2;
+                        this.actual.numeroPedidoEnPreparacionE2 = pedidoActual.id;
+                        this.actual.tipoPedidoEnPreparacionE2 = pedidoActual.tipoPedido;
+                        break;
 
-                this.actual.tiempoPreparacionPedido=  this.actual.GenerartiempoPreparacion((Math.Truncate(rnd.NextDouble() * 100) / 100), tipo);
+                    }
+                    if (anterior.estadoEmpleado2 == "Ocupado")
+                    {
+                        this.actual.ColaEmpleado2.Enqueue(pedidoActual);
+                        this.actual.rndPreparacionPedidoE2 = 0;
+                        this.actual.tiempoPreparacionPedidoE2 = 0;
+                    }
 
-                 if (this.actual.estadoEmpleado1 == "Libre")
-                 {
-                    this.actual.estadoEmpleado1 = "Ocupado";
-                    this.actual.enPreparacionE1 = new Pedido(this.actual.reloj, "EPE1");
+                    break;
+                case "Empleado 3":
+                    if (anterior.estadoEmpleado3 == "Libre")
+                    {
+                        this.actual.estadoEmpleado3 = "Ocupado";
+                        this.actual.rndPreparacionPedidoE3 = Math.Truncate(rnd.NextDouble() * 100) / 100;
+                        double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE3, this.actual.tipoPedidoPedido);
+                        this.actual.tiempoPreparacionPedidoE3 = tiempoPreparacion;
+                        this.actual.proximaFinPreparacionPedidoE3 = this.actual.reloj + this.actual.tiempoPreparacionPedidoE3;
+                        this.actual.numeroPedidoEnPreparacionE3 = pedidoActual.id;
+                        this.actual.tipoPedidoEnPreparacionE3 = pedidoActual.tipoPedido;
+                        break;
 
-                    this.actual.proximaFinPreparacionPedidoE1 = this.actual.tiempoPreparacionPedido + this.actual.reloj;
-                 }
+                    }
+                    if (anterior.estadoEmpleado3 == "Ocupado")
+                    {
+                        this.actual.ColaEmpleado3.Enqueue(pedidoActual);
+                        this.actual.rndPreparacionPedidoE3 = 0;
+                        this.actual.tiempoPreparacionPedidoE3 = 0;
+                    }
 
-                else if (this.actual.estadoEmpleado2 == "Libre")
-                {
-                    this.actual.estadoEmpleado2 = "Ocupado";
-                    this.actual.enPreparacionE2 = new Pedido(this.actual.reloj, "EPE2");
+                    break;
 
-                    this.actual.proximaFinPreparacionPedidoE2 = this.actual.tiempoPreparacionPedido + this.actual.reloj;
-
-                }
-
-                else if(this.actual.estadoEmpleado3 == "Libre")
-                {
-                    this.actual.estadoEmpleado3 = "Ocupado";
-                    this.actual.enPreparacionE3 = new Pedido(this.actual.reloj, "EPE3");
-
-                    this.actual.proximaFinPreparacionPedidoE3 = this.actual.tiempoPreparacionPedido + this.actual.reloj;
-
-                }
 
             }
+            
+            
+
         }
 
         public void FinPreparacionPedido(int i)
         {
-            int j = 0;
-            if (i == 1)
+            this.actual.rndLlegadaPedido = 0;
+            this.actual.tiempoLlegadaPedido = 0;
+            this.actual.empleadoDesignado = "X";
+            this.actual.rndTipoPedido = 0;
+            this.actual.tipoPedidoPedido = "X";
+            if ( i == 1)
             {
-                if(this.actual.colaLlegadaPedido.Count > 0)
+                this.actual.numeroPedido = (int)this.anterior.numeroPedidoEnPreparacion;
+                this.actual.proximoNumeroPedido = this.anterior.proximoNumeroPedido;
+                if ( anterior.ColaEmpleado1.Count() > 0)
                 {
-                   
-
-                    this.actual.enPreparacionE1 = this.actual.colaLlegadaPedido.Dequeue();
-
-                    string tipo = this.actual.generarTipoDePedido((Math.Truncate(rnd.NextDouble() * 100) / 100));
-
-                    this.actual.tipoPedidoPedido = tipo;
-
-                    this.actual.rndPreparacionPedido = (Math.Truncate(rnd.NextDouble() * 100) / 100);
-
-                    this.actual.tiempoPreparacionPedido = this.actual.GenerartiempoPreparacion((Math.Truncate(rnd.NextDouble() * 100) / 100), tipo);
-
-                    this.actual.enPreparacionE1.estado = "EPE1";
-                    this.actual.enPreparacionE1.id = this.actual.reloj;
-
-                    this.actual.proximaFinPreparacionPedidoE1 = this.actual.tiempoPreparacionPedido + this.actual.reloj;
-
+                    actual.estadoEmpleado1 = "Ocupado";
+                    this.actual.rndPreparacionPedidoE1 = Math.Truncate(rnd.NextDouble() * 100) / 100;
+                    double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE1, this.actual.tipoPedidoPedido);
+                    this.actual.tiempoPreparacionPedidoE1 = tiempoPreparacion;
+                    this.actual.proximaFinPreparacionPedidoE1 = this.actual.reloj + this.actual.tiempoPreparacionPedidoE1;
+                    Pedido proximoPedido = anterior.ColaEmpleado1.Dequeue();
+                    this.actual.numeroPedidoEnPreparacion = proximoPedido.id;
+                    this.actual.tipoPedidoEnPreparacion = proximoPedido.tipoPedido;
                 }
                 else
                 {
-                    this.actual.estadoEmpleado1 = "Libre";
-                    this.actual.proximaFinPreparacionPedidoE1 = 0;
-                    this.actual.enPreparacionE1 = new Pedido();
+                    actual.estadoEmpleado1 = "Libre";
+                    actual.rndPreparacionPedidoE1 = 0;
+                    actual.tiempoPreparacionPedidoE1 = 0;
+                    actual.proximaFinPreparacionPedidoE1 = 0;
+                    actual.numeroPedidoEnPreparacion = 0;
+                    actual.tipoPedidoEnPreparacion = "X";
                 }
-
-                return;
+               
             }
             else if (i == 2)
             {
-                if (this.actual.colaLlegadaPedido.Count > 0)
+                this.actual.numeroPedido = (int)this.anterior.numeroPedidoEnPreparacionE2;
+                this.actual.proximoNumeroPedido = this.anterior.proximoNumeroPedido;
+                if (anterior.ColaEmpleado2.Count() > 0)
                 {
-
-
-                    this.actual.enPreparacionE2 = this.actual.colaLlegadaPedido.Dequeue();
-
-                    string tipo = this.actual.generarTipoDePedido((Math.Truncate(rnd.NextDouble() * 100) / 100));
-
-                    this.actual.tipoPedidoPedido = tipo;
-
-                    this.actual.rndPreparacionPedido = (Math.Truncate(rnd.NextDouble() * 100) / 100);
-
-                    this.actual.tiempoPreparacionPedido = this.actual.GenerartiempoPreparacion((Math.Truncate(rnd.NextDouble() * 100) / 100), tipo);
-
-                    this.actual.enPreparacionE2.estado = "EPE2";
-                    this.actual.enPreparacionE2.id = this.actual.reloj;
-
-                    this.actual.proximaFinPreparacionPedidoE2 = this.actual.tiempoPreparacionPedido + this.actual.reloj;
-
+                    actual.estadoEmpleado2 = "Ocupado";
+                    this.actual.rndPreparacionPedidoE2 = Math.Truncate(rnd.NextDouble() * 100) / 100;
+                    double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE2, this.actual.tipoPedidoPedido);
+                    this.actual.tiempoPreparacionPedidoE2 = tiempoPreparacion;
+                    this.actual.proximaFinPreparacionPedidoE2 = this.actual.reloj + this.actual.tiempoPreparacionPedidoE2;
+                    Pedido proximoPedido = anterior.ColaEmpleado2.Dequeue();
+                    this.actual.numeroPedidoEnPreparacionE2 = proximoPedido.id;
+                    this.actual.tipoPedidoEnPreparacionE2 = proximoPedido.tipoPedido;
                 }
                 else
                 {
-                    this.actual.estadoEmpleado2 = "Libre";
-                    this.actual.proximaFinPreparacionPedidoE2 = 0;
-
-                    this.actual.enPreparacionE2 = new Pedido();
+                    actual.estadoEmpleado2 = "Libre";
+                    actual.rndPreparacionPedidoE2 = 0;
+                    actual.tiempoPreparacionPedidoE2 = 0;
+                    actual.proximaFinPreparacionPedidoE2 = 0;
+                    actual.numeroPedidoEnPreparacionE2 = 0;
+                    actual.tipoPedidoEnPreparacionE2 = "X";
                 }
-
-               
-            }
-            else if (i == 3)
-            {
-                if (this.actual.colaLlegadaPedido.Count > 0)
-                {
-                    this.actual.enPreparacionE3 = this.actual.colaLlegadaPedido.Dequeue();
-
-                    string tipo = this.actual.generarTipoDePedido((Math.Truncate(rnd.NextDouble() * 100) / 100));
-
-                    this.actual.tipoPedidoPedido = tipo;
-
-                    this.actual.rndPreparacionPedido = (Math.Truncate(rnd.NextDouble() * 100) / 100);
-
-                    this.actual.tiempoPreparacionPedido = this.actual.GenerartiempoPreparacion((Math.Truncate(rnd.NextDouble() * 100) / 100), tipo);
-
-                    this.actual.enPreparacionE3.estado = "EPE1";
-                    this.actual.enPreparacionE3.id = this.actual.reloj;
-
-                    this.actual.proximaFinPreparacionPedidoE3 = this.actual.tiempoPreparacionPedido + this.actual.reloj;
-
-
-                }
-                else
-                {
-                    this.actual.estadoEmpleado3 = "Libre";
-                    this.actual.proximaFinPreparacionPedidoE3 = 0;
-
-                    this.actual.enPreparacionE3 = new Pedido();
-
-                }
-
-                
-            }
-
-
-            if (this.actual.estadoEmpleadoDelivery == "Ocupado")
-            {
-                Pedido Pedido_enCola_Delivery = new Pedido(this.actual.reloj, "Esperando Entrega");
-
-                this.actual.colaEntregaPedido.Enqueue(Pedido_enCola_Delivery);
-                this.objetos.Add(Pedido_enCola_Delivery);
-                this.tabla.Columns.Add("Pedido " + this.objetos.Count);
-
 
             }
             else
             {
-                this.actual.rndEntregaPedido = (Math.Truncate(rnd.NextDouble() * 100) / 100);
-                this.actual.tiempoEntregaPedido = this.actual.GenerartiempoEntrega(this.actual.rndEntregaPedido);
-
-                this.actual.proximaFinEntregaPedido = this.actual.tiempoEntregaPedido + this.actual.reloj;
-
-                this.actual.estadoEmpleadoDelivery = "Ocupado";
+                this.actual.numeroPedido = (int)this.anterior.numeroPedidoEnPreparacionE3;
+                this.actual.proximoNumeroPedido = this.anterior.proximoNumeroPedido;
+                if (anterior.ColaEmpleado3.Count() > 0)
+                {
+                    actual.estadoEmpleado3 = "Ocupado";
+                    this.actual.rndPreparacionPedidoE3 = Math.Truncate(rnd.NextDouble() * 100) / 100;
+                    double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE3, this.actual.tipoPedidoPedido);
+                    this.actual.tiempoPreparacionPedidoE3 = tiempoPreparacion;
+                    this.actual.proximaFinPreparacionPedidoE3 = this.actual.reloj + this.actual.tiempoPreparacionPedidoE3;
+                    Pedido proximoPedido = anterior.ColaEmpleado3.Dequeue();
+                    this.actual.numeroPedidoEnPreparacionE3 = proximoPedido.id;
+                    this.actual.tipoPedidoEnPreparacionE3 = proximoPedido.tipoPedido;
+                }
+                else
+                {
+                    actual.estadoEmpleado3 = "Libre";
+                    actual.rndPreparacionPedidoE3 = 0;
+                    actual.tiempoPreparacionPedidoE3 = 0;
+                    actual.proximaFinPreparacionPedidoE3 = 0;
+                    actual.numeroPedidoEnPreparacionE3 = 0;
+                    actual.tipoPedidoEnPreparacionE3 = "X";
+                }
             }
-
-           
-        }
-
-        public void FinEntregaPedido()
-        {
-            if (this.actual.colaLlegadaPedido.Count > 0)
-            {
-                this.actual.EnColaDelivery = this.actual.colaEntregaPedido.Dequeue();
-
-                this.actual.rndEntregaPedido = (Math.Truncate(rnd.NextDouble() * 100) / 100);
-                this.actual.tiempoEntregaPedido = this.actual.GenerartiempoEntrega(this.actual.rndEntregaPedido);
-
-                this.actual.proximaFinEntregaPedido = this.actual.tiempoEntregaPedido + this.actual.reloj;
-
-                this.actual.EnColaDelivery.estado = "ED";
-                this.actual.EnColaDelivery.id = this.actual.reloj;
-
-
-            }
-            else
-            {
-                this.actual.estadoEmpleadoDelivery = "Libre";
-
-               
-                this.actual.proximaFinEntregaPedido = 0;
-
-                this.actual.enDelivery = new Pedido();
-
-            }
-
-
-
 
         }
 
@@ -405,52 +354,53 @@ namespace TP_5_v2
                 tabla.Rows.Add(
                 fila.reloj.ToString(),
                 fila.evento,
-                fila.rndLlegadaPedido == 0 ? "" : fila.rndLlegadaPedido.ToString(),
-                fila.tiempoLlegadaPedido == 0 ? "" : fila.tiempoLlegadaPedido.ToString(),
-                fila.proximaLlegadaPedidoo == 0 ? "" : fila.proximaLlegadaPedidoo.ToString(),
-                fila.rndTipoPedido == 0 ? "" : fila.rndTipoPedido.ToString(),
-                fila.tipoPedidoPedido is null ? "" : fila.tipoPedidoPedido.ToString(),
+                fila.numeroPedido,
+                fila.proximoNumeroPedido,
+                fila.rndLlegadaPedido == 0 ? "X" : fila.rndLlegadaPedido.ToString(),
+                fila.tiempoLlegadaPedido == 0 ? "X" : fila.tiempoLlegadaPedido.ToString(),
+                fila.proximaLlegadaPedidoo == 0 ? "X" : fila.proximaLlegadaPedidoo.ToString(),
+                fila.rndTipoPedido == 0 ? "X" : fila.rndTipoPedido.ToString(),
+                fila.tipoPedidoPedido,
+                fila.empleadoDesignado,
 
-                fila.colaLlegadaPedido.Count.ToString(),
-                fila.rndPreparacionPedido == 0 ? "" : fila.rndPreparacionPedido.ToString(),
-                fila.tiempoPreparacionPedido == 0 ? "" : fila.tiempoPreparacionPedido.ToString(),
-                0,
-                
                 fila.estadoEmpleado1,
+                fila.numeroPedidoEnPreparacion == 0 ? "X" : fila.numeroPedidoEnPreparacion.ToString(),
+                fila.tipoPedidoEnPreparacion,
+                fila.rndPreparacionPedidoE1 == 0 ? "X" : fila.rndPreparacionPedidoE1.ToString(),
+                fila.tiempoPreparacionPedidoE1 == 0 ? "X" : fila.tiempoPreparacionPedidoE1.ToString(),
+                fila.proximaFinPreparacionPedidoE1,
+                fila.ColaEmpleado1.Count(),
+
                 fila.estadoEmpleado2,
+                fila.numeroPedidoEnPreparacionE2 == 0 ? "X" : fila.numeroPedidoEnPreparacionE2.ToString(),
+                fila.tipoPedidoEnPreparacionE2,
+                fila.rndPreparacionPedidoE2 == 0 ? "X" : fila.rndPreparacionPedidoE2.ToString(),
+                fila.tiempoPreparacionPedidoE2 == 0 ? "X" : fila.tiempoPreparacionPedidoE2.ToString(),
+                fila.proximaFinPreparacionPedidoE2,
+                fila.ColaEmpleado2.Count(),
+
                 fila.estadoEmpleado3,
-                fila.colaEntregaPedido.Count.ToString(),
-                fila.rndEntregaPedido == 0 ? "" : fila.rndEntregaPedido.ToString(),
-                fila.tiempoEntregaPedido == 0 ? "" : fila.tiempoEntregaPedido.ToString(),
-                fila.proximaFinEntregaPedido == 0 ? "" : fila.proximaFinEntregaPedido.ToString()
+                fila.numeroPedidoEnPreparacionE3 == 0 ? "X" : fila.numeroPedidoEnPreparacionE3.ToString(),
+                fila.tipoPedidoEnPreparacionE3,
+                fila.rndPreparacionPedidoE3 == 0 ? "X" : fila.rndPreparacionPedidoE3.ToString(),
+                fila.tiempoPreparacionPedidoE3 == 0 ? "X" : fila.tiempoPreparacionPedidoE3.ToString(),
+                fila.proximaFinPreparacionPedidoE3,
+                fila.ColaEmpleado3.Count()
 
                 );
 
-            int i = 0;
-            foreach (var cliente in this.objetos)
-            {
-                i++;
-                this.tabla.Rows[this.tabla.Rows.Count - 1]["Pedido " + i] = cliente.estado;
+            //int i = 0;
+            //foreach (var cliente in this.objetos)
+            //{
+           //     i++;
+             //   this.tabla.Rows[this.tabla.Rows.Count - 1]["Pedido " + i] = cliente.estado;
                
-            }
+           // }
 
 
         }
 
-        public void vaciarRNDS()
-        {
-            this.actual.rndEntregaPedido = 0;
-            this.actual.rndLlegadaPedido = 0;
-            this.actual.rndPreparacionPedido = 0;
-            this.actual.rndTipoPedido = 0;
-
-            this.actual.tiempoPreparacionPedido = 0;
-            this.actual.tiempoEntregaPedido = 0;
-            this.actual.proximaFinPreparacionPedidoE1 = 0;
-            this.actual.proximaFinPreparacionPedidoE2 = 0;
-            this.actual.proximaFinPreparacionPedidoE3 = 0;
-           
-        }
+       
 
         private void btnCargarEjemplo_Click(object sender, EventArgs e)
         {

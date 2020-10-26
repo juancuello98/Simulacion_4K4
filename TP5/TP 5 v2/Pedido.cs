@@ -9,13 +9,16 @@ namespace TP_5_v2
     class Pedido
     {
         public float id;
-        public string estado;
+        public string tipoPedido;
 
-        public Pedido(float id, string estado)
+
+        public Pedido(float numeroPedido, string tipoPedido)
         {
-            this.id = id;
-            this.estado = estado;
+            this.id = numeroPedido;
+            this.tipoPedido = tipoPedido;
         }
+
+           
 
         public Pedido() { }
 

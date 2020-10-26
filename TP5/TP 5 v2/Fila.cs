@@ -8,8 +8,10 @@ namespace TP_5_v2
 {
     class Fila
     {
+        //Pedido
 
-        public int cantLlegadas = 0;
+        public int proximoNumeroPedido = 1;
+        public int numeroPedido = 0;
         public string evento;
         public float reloj;
 
@@ -17,121 +19,120 @@ namespace TP_5_v2
         public double rndLlegadaPedido;
         public double tiempoLlegadaPedido;
         public double proximaLlegadaPedidoo;
-
         public int mediaLlegadaPedido;
-
 
         //TipoPedido
         public double rndTipoPedido;
         public string tipoPedidoPedido;
-       
+
+        // Asignacion del empleado
+        public string empleadoDesignado;
 
 
         //Evento Preparacion Pedido
-        public double rndPreparacionPedido;
-        public double tiempoPreparacionPedido;
+        //Empleado 1
+        public string estadoEmpleado1;
+        public double numeroPedidoEnPreparacion;
+        public string tipoPedidoEnPreparacion;
+        public double rndPreparacionPedidoE1;
+        public double tiempoPreparacionPedidoE1;
         public double proximaFinPreparacionPedidoE1;
-        public double proximaFinPreparacionPedidoE2;
-        public double proximaFinPreparacionPedidoE3;
+        public Queue<Pedido> ColaEmpleado1;
 
-        //ENTREGA
+        //Empleado 2
+        public string estadoEmpleado2;
+        public double numeroPedidoEnPreparacionE2;
+        public string tipoPedidoEnPreparacionE2;
+        public double rndPreparacionPedidoE2;
+        public double tiempoPreparacionPedidoE2;
+        public double proximaFinPreparacionPedidoE2;
+        public Queue<Pedido> ColaEmpleado2;
+
+        //Empleado 3
+        public string estadoEmpleado3;
+        public double numeroPedidoEnPreparacionE3;
+        public string tipoPedidoEnPreparacionE3;
+        public double rndPreparacionPedidoE3;
+        public double tiempoPreparacionPedidoE3;
+        public double proximaFinPreparacionPedidoE3;
+        public Queue<Pedido> ColaEmpleado3;
+
+        ////Empleado Delivery
+        public string estadoDelivery;
+        public Queue<Pedido> ColaDelivery;
         public double rndEntregaPedido;
         public double tiempoEntregaPedido;
         public double proximaFinEntregaPedido;
-
-        //Colas
-
-        public Queue<Pedido> colaLlegadaPedido;
-        public Queue<Pedido> colaEntregaPedido;
       
-
-        //Objetos permanentes
-        public string estadoEmpleado1;
-        public string estadoEmpleado2;
-        public string estadoEmpleado3;
        
-        public Pedido enPreparacionE1;
-        
-        public Pedido enPreparacionE2;
-        public Pedido enPreparacionE3;
-        
-        public string estadoEmpleadoDelivery;
-        public Pedido enDelivery;
-
-        public Tuple<Pedido> EnPreparacion;
-
-        public Pedido EnColaLlegadaPedido;
-
-        public Pedido EnColaDelivery;
-
-
-
-
+        // Parametros de la prep de pedidos
+        //Pizza
         public int limiteA_Prep_Pizza ;
-
         public int limiteB_Prep_Pizza;
 
+        //sandwich
         public int mediaPrepSandwichNormal ;
         public int desvPrepSandwichNormal;
-
-
+        //FALTA LO DE LAS EMPANADAS , LOMITOS Y HAMBURGUESAS
+        //media de entrega de pedidos
         public int mediaTiempoEntrega ;
 
-        public float costo_pizza ;
+        // Parametros de precios de pedidos
 
+        public float costo_pizza ;
         public float costo_sandwich ;
         public float costo_empanadas ;
         public float costo_hamburguesa;
         public float costo_lomito;
 
-
-
-        public Fila(int mediaLlegadaPedido, int limiteA_Prep_Pizza, int limiteB_Prep_Pizza, int mediaPrepSandwichNormal,int desvPrepSandwichNormal, int mediaTiempoEntrega , string evento, float reloj, double rndLlegadaPedido, float rndTipoPedido, float rndPreparacionPedido,double rndEntregaPedido,
-            Queue<Pedido> colaEntregaPedido, Queue<Pedido> colaLlegadaPedido,string estadoEmpleado1, string estadoEmpleado2, string estadoEmpleado3, string estadoEmpleadoDelivery)
+        public Fila(int proximoNumeroPedido, int numeroPedido, string evento, float reloj, int mediaLlegadaPedido, double rndTipoPedido, string empleadoDesignado, string estadoEmpleado1, double numeroPedidoEnPreparacion, string tipoPedidoEnPreparacion, double rndPreparacionPedidoE1, double tiempoPreparacionPedidoE1, double proximaFinPreparacionPedidoE1, Queue<Pedido> colaEmpleado1, string estadoEmpleado2, double numeroPedidoEnPreparacionE2, string tipoPedidoEnPreparacionE2, double rndPreparacionPedidoE2, double tiempoPreparacionPedidoE2, double proximaFinPreparacionPedidoE2, Queue<Pedido> colaEmpleado2, string estadoEmpleado3, double numeroPedidoEnPreparacionE3, string tipoPedidoEnPreparacionE3, double rndPreparacionPedidoE3, double tiempoPreparacionPedidoE3, double proximaFinPreparacionPedidoE3, Queue<Pedido> colaEmpleado3, string estadoDelivery, Queue<Pedido> colaDelivery, double rndEntregaPedido, double tiempoEntregaPedido, double proximaFinEntregaPedido, int limiteA_Prep_Pizza, int limiteB_Prep_Pizza, int mediaPrepSandwichNormal, int desvPrepSandwichNormal, int mediaTiempoEntrega, float costo_pizza, float costo_sandwich, float costo_empanadas, float costo_hamburguesa, float costo_lomito)
         {
+            this.proximoNumeroPedido = proximoNumeroPedido;
+            this.numeroPedido = numeroPedido;
             this.evento = evento;
-           
-            this.reloj = reloj;
-
+            this.reloj = reloj; 
 
             this.mediaLlegadaPedido = mediaLlegadaPedido;
-            this.limiteA_Prep_Pizza =  limiteA_Prep_Pizza;
+            this.rndTipoPedido = rndTipoPedido;
+            
+            this.empleadoDesignado = empleadoDesignado;
+            this.estadoEmpleado1 = estadoEmpleado1;
+            this.numeroPedidoEnPreparacion = numeroPedidoEnPreparacion;
+            this.tipoPedidoEnPreparacion = tipoPedidoEnPreparacion;
+            this.rndPreparacionPedidoE1 = rndPreparacionPedidoE1;
+            this.tiempoPreparacionPedidoE1 = tiempoPreparacionPedidoE1;
+            this.proximaFinPreparacionPedidoE1 = proximaFinPreparacionPedidoE1;
+            this.ColaEmpleado1 = colaEmpleado1;
+            this.estadoEmpleado2 = estadoEmpleado2;
+            this.numeroPedidoEnPreparacionE2 = numeroPedidoEnPreparacionE2;
+            this.tipoPedidoEnPreparacionE2 = tipoPedidoEnPreparacionE2;
+            this.rndPreparacionPedidoE2 = rndPreparacionPedidoE2;
+            this.tiempoPreparacionPedidoE2 = tiempoPreparacionPedidoE2;
+            this.proximaFinPreparacionPedidoE2 = proximaFinPreparacionPedidoE2;
+            this.ColaEmpleado2 = colaEmpleado2;
+            this.estadoEmpleado3 = estadoEmpleado3;
+            this.numeroPedidoEnPreparacionE3 = numeroPedidoEnPreparacionE3;
+            this.tipoPedidoEnPreparacionE3 = tipoPedidoEnPreparacionE3;
+            this.rndPreparacionPedidoE3 = rndPreparacionPedidoE3;
+            this.tiempoPreparacionPedidoE3 = tiempoPreparacionPedidoE3;
+            this.proximaFinPreparacionPedidoE3 = proximaFinPreparacionPedidoE3;
+            this.ColaEmpleado3 = colaEmpleado3;
+            this.estadoDelivery = estadoDelivery;
+            this.ColaDelivery = colaDelivery;
+            this.rndEntregaPedido = rndEntregaPedido;
+            this.tiempoEntregaPedido = tiempoEntregaPedido;
+            this.proximaFinEntregaPedido = proximaFinEntregaPedido;
+            this.limiteA_Prep_Pizza = limiteA_Prep_Pizza;
             this.limiteB_Prep_Pizza = limiteB_Prep_Pizza;
             this.mediaPrepSandwichNormal = mediaPrepSandwichNormal;
-
-            this.rndLlegadaPedido = rndLlegadaPedido;
-            this.rndPreparacionPedido = rndPreparacionPedido;
-            this.rndEntregaPedido = rndEntregaPedido;
-            this.rndTipoPedido = rndTipoPedido;
-
-            this.rndEntregaPedido = rndEntregaPedido;
+            this.desvPrepSandwichNormal = desvPrepSandwichNormal;
             this.mediaTiempoEntrega = mediaTiempoEntrega;
-
-
-            //Estados de los empleados 
-            this.estadoEmpleado1 = estadoEmpleado1;
-            this.estadoEmpleado2 = estadoEmpleado2;
-            this.estadoEmpleado3 = estadoEmpleado3;
-            this.estadoEmpleadoDelivery = estadoEmpleadoDelivery;
-
-
-            //Estados Colas 
-            this.colaEntregaPedido = colaEntregaPedido;
-            this.colaLlegadaPedido = colaLlegadaPedido;
-            
-
-
-            //Calculo de la entrega
-            double nro = rndEntregaPedido;//random del lenguaje
-            double lambda = 1 / mediaPrepSandwichNormal;
-            double log = Math.Log(1 - nro);
-
-            this.tiempoEntregaPedido = this.rndPreparacionPedido != 0 ? (-1 / lambda) * log : 0;
-            this.proximaFinEntregaPedido = this.tiempoEntregaPedido != 0 ? this.tiempoEntregaPedido + this.reloj : 0;
-
-
+            this.costo_pizza = costo_pizza;
+            this.costo_sandwich = costo_sandwich;
+            this.costo_empanadas = costo_empanadas;
+            this.costo_hamburguesa = costo_hamburguesa;
+            this.costo_lomito = costo_lomito;
         }
-
 
         public void proximaLlegadaPedido(double rnd)
         {
@@ -157,32 +158,31 @@ namespace TP_5_v2
             this.proximaLlegadaPedidoo = this.reloj + this.tiempoLlegadaPedido;
         }
 
-        public string generarTipoDePedido(double rnd)
+        public void generarTipoDePedido(double rnd)
         {
-            string tipoPedidoPedido = "";
+            
             if (rnd > 0 && rnd < 0.20)
             {
-                tipoPedidoPedido = "Sandwich";
+                this.tipoPedidoPedido = "Sandwich";
 
             }
 
             else if (rnd >= 0.20 && rnd < 0.60)
             {
-                tipoPedidoPedido = "Pizza";
+                this.tipoPedidoPedido = "Pizza";
 
             }
 
             else if (rnd >= 0.60 && rnd < 0.90)
             {
-                tipoPedidoPedido = "Empanadas";
+                this.tipoPedidoPedido = "Empanadas";
 
             }
 
             else
             {
-                tipoPedidoPedido = "Lomito";
+                this.tipoPedidoPedido = "Lomito";
             }
-            return tipoPedidoPedido;
         }
 
         public double GenerartiempoPreparacion(double rnd, string tipo)
@@ -190,7 +190,7 @@ namespace TP_5_v2
             double time = 0;
             if (tipo == "Pizza")
             {
-                time = (float)(limiteA_Prep_Pizza + (this.rndPreparacionPedido * (limiteB_Prep_Pizza - limiteA_Prep_Pizza)));
+                time = (float)(limiteA_Prep_Pizza + (rnd * (limiteB_Prep_Pizza - limiteA_Prep_Pizza)));
 
             }
             else if (tipo == "Sandwich")
@@ -199,7 +199,7 @@ namespace TP_5_v2
                 for (int j = 0; j < 12; j++)
                 {
 
-                    double aleat = this.rndPreparacionPedido;
+                    double aleat = rnd;
                     suma = suma + aleat;
                 }
                 double z = ((suma - 6) * desvPrepSandwichNormal) + mediaPrepSandwichNormal;
@@ -241,41 +241,46 @@ namespace TP_5_v2
 
         }
 
-            public void proximoEvento()
-            {
-                string proxEvento = "llegada_Pedido";
-                double min = this.proximaLlegadaPedidoo;
-            // 
+        public void proximoEvento()
+        {
+            string proxEvento = "llegada_Pedido";
+            double relojMinimo = proximaLlegadaPedidoo;
+                
+            //  
 
-                if (min > this.proximaFinPreparacionPedidoE1 && this.proximaFinPreparacionPedidoE1 != 0)
+                if (relojMinimo > this.proximaFinPreparacionPedidoE1 && this.proximaFinPreparacionPedidoE1 != 0)
                 {
-                    min = this.proximaFinPreparacionPedidoE1;
+                    relojMinimo = this.proximaFinPreparacionPedidoE1;
                     proxEvento = "fin_PreparacionPedido E1";
                 }
 
-                if (min > this.proximaFinPreparacionPedidoE2 && this.proximaFinPreparacionPedidoE2 != 0)
+                if (relojMinimo > this.proximaFinPreparacionPedidoE2 && this.proximaFinPreparacionPedidoE2 != 0)
                 {
-                    min = this.proximaFinPreparacionPedidoE2;
+                    relojMinimo = this.proximaFinPreparacionPedidoE2;
                     proxEvento = "fin_PreparacionPedido E2";
                 }
 
-                if (min > this.proximaFinPreparacionPedidoE3 && this.proximaFinPreparacionPedidoE3 != 0)
+                if (relojMinimo > this.proximaFinPreparacionPedidoE3 && this.proximaFinPreparacionPedidoE3 != 0)
                 {
-                    min = this.proximaFinPreparacionPedidoE3;
+                    relojMinimo = this.proximaFinPreparacionPedidoE3;
                     proxEvento = "fin_PreparacionPedido E3";
                 }
-
           
-                if (min > this.proximaFinEntregaPedido && this.proximaFinEntregaPedido != 0)
+                if (relojMinimo > this.proximaFinEntregaPedido && this.proximaFinEntregaPedido != 0)
                 {
-                    min = this.proximaFinEntregaPedido;
+                    relojMinimo = this.proximaFinEntregaPedido;
                     proxEvento = "fin_EntregaDelivery";
                 }
       
 
-                this.reloj = (float)min;
+                this.reloj = (float)relojMinimo;
                 this.evento = proxEvento;
-            }
+        }
+
+        public void AsignarPedidoAEmpleado()
+        {
+
+        }
 
 
       
