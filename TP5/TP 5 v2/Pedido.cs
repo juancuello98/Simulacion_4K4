@@ -8,11 +8,11 @@ namespace TP_5_v2
 {
     class Pedido
     {
-        public float id;
+        public double id;
         public string tipoPedido;
 
 
-        public Pedido(float numeroPedido, string tipoPedido)
+        public Pedido(double numeroPedido, string tipoPedido)
         {
             this.id = numeroPedido;
             this.tipoPedido = tipoPedido;

@@ -28,3 +28,6 @@ C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Trabajos Practicos\Simu
 C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Trabajos Practicos\Simulacion_4K4\TP5\TP 5 v2\obj\Debug\TP 5 v2.csproj.CoreCompileInputs.cache
 C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Trabajos Practicos\Simulacion_4K4\TP5\TP 5 v2\obj\Debug\TP 5 v2.exe
 C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Trabajos Practicos\Simulacion_4K4\TP5\TP 5 v2\obj\Debug\TP 5 v2.pdb
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Trabajos Practicos\Simulacion_4K4\TP5\TP 5 v2\bin\Debug\MathNet.Numerics.dll
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Trabajos Practicos\Simulacion_4K4\TP5\TP 5 v2\bin\Debug\MathNet.Numerics.xml
+C:\Users\juan_\Documents\JUAN\Facultad\4_CUARTO AÑO\SIM\Trabajos Practicos\Simulacion_4K4\TP5\TP 5 v2\obj\Debug\TP 5 v2.csproj.CopyComplete

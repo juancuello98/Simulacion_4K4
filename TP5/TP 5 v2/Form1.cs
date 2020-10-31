@@ -18,8 +18,8 @@ namespace TP_5_v2
         Fila anterior;
         Random rnd = new Random();
         DataTable tabla = new DataTable();
-        float desde;
-        float hasta;
+        double desde;
+        double hasta;
 
 
         public Form1()
@@ -29,8 +29,8 @@ namespace TP_5_v2
 
         private void btnSimular_Click(object sender, EventArgs e)
         {
-            desde = float.Parse(this.txtMinDesde.Text.Trim());
-            hasta = float.Parse(this.txtMinHasta.Text.Trim());
+            desde = double.Parse(this.txtMinDesde.Text.Trim());
+            hasta = double.Parse(this.txtMinHasta.Text.Trim());
             int cantIteraciones = int.Parse(this.txtMinSimulacion.Text.Trim());
 
             //Limpiar tabla
@@ -48,13 +48,13 @@ namespace TP_5_v2
             int mediaTiempoEntrega = int.Parse(this.txtMediaTiempoDeEntrega.Text.Trim());
 
             // tomamos lo datos de los inputs de los costos de los pedidos
-            float costo_pizza = int.Parse(this.TxtCostoPizza.Text.Trim());
-            float costo_sandwich = int.Parse(this.TxtCostoSandwich.Text.Trim());
-            float costo_empanadas = int.Parse(this.TxtCostoEmpanada.Text.Trim());
-            float costo_hamburguesa = int.Parse(this.TxtCostoHamburguesa.Text.Trim()); ;
-            float costo_lomito = int.Parse(this.TxtCostoLomito.Text.Trim()); ;
+            double costo_pizza = int.Parse(this.TxtCostoPizza.Text.Trim());
+            double costo_sandwich = int.Parse(this.TxtCostoSandwich.Text.Trim());
+            double costo_empanadas = int.Parse(this.TxtCostoEmpanada.Text.Trim());
+            double costo_hamburguesa = int.Parse(this.TxtCostoHamburguesa.Text.Trim()); ;
+            double costo_lomito = int.Parse(this.TxtCostoLomito.Text.Trim()); ;
 
-            float i = 0;
+            double i = 0;
             
             tabla.Columns.Add("Reloj");
             tabla.Columns.Add("Evento");
@@ -78,6 +78,7 @@ namespace TP_5_v2
             tabla.Columns.Add("Tiempo preparacion");
             tabla.Columns.Add("Proximo Fin Prep 1");
             tabla.Columns.Add("Cola Emp 1");
+            tabla.Columns.Add("Tiempo Libre E1");
             //Emplado 2
             tabla.Columns.Add("EstadoEmpleado2");
             tabla.Columns.Add("Pedido2");
@@ -86,6 +87,7 @@ namespace TP_5_v2
             tabla.Columns.Add("Tiempo preparacion2");
             tabla.Columns.Add("Proximo Fin Prep 2");
             tabla.Columns.Add("Cola Emp 2");
+            tabla.Columns.Add("Tiempo Libre E2");
             //Empleado 3
             tabla.Columns.Add("EstadoEmpleado3");
             tabla.Columns.Add("Pedido3");
@@ -94,6 +96,7 @@ namespace TP_5_v2
             tabla.Columns.Add("Tiempo preparacion3");
             tabla.Columns.Add("Proximo Fin Prep 3");
             tabla.Columns.Add("Cola Emp 3");
+            tabla.Columns.Add("Tiempo Libre E3");
 
             //Delivery
             tabla.Columns.Add("Cola Delivery");
@@ -101,17 +104,23 @@ namespace TP_5_v2
             tabla.Columns.Add("Tiempo Entrega");
             tabla.Columns.Add("Fin Entrega");
 
+            //Local
+            tabla.Columns.Add("Estado Local");
+            tabla.Columns.Add("Proximo Cierre");
+            tabla.Columns.Add("Inicio turno");
+
+
             //Inicializamos las filas
             //actual = new Fila(mediaLlegadaPedido, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, "Inicializacion", 0, (Math.Truncate(rnd.NextDouble() * 100) / 100), 0, 0, 0, new Queue<Pedido>(), new Queue<Pedido>(), "Libre", "Libre", "Libre", "Libre");
 
             //anterior = (Fila)actual.Clone();
-            
+
             while (i < cantIteraciones) //valor para controlar
 
             {
                 if (i == 0) {
-                    actual = new Fila(1, 0, "Inicializacion", 0, mediaLlegadaPedido, 0.53 , "-", "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), "Libre", new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito);
-                    actual.proximaLlegadaPedido(0.43);
+                    actual = new Fila(1, 0, "Inicializacion", 480, mediaLlegadaPedido, 0.53 , "-", "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(),480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(),480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(),480, "Libre", new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito,"Abierto",840,960);
+                    actual.proximaLlegadaPedido();
                     this.agregarDato(this.actual);
                     anterior = (Fila)actual.Clone();
                 }
@@ -144,12 +153,46 @@ namespace TP_5_v2
                         case "fin_PreparacionPedido E3":
                             this.FinPreparacionPedido(3);
                             break;
+                        case "Fin del turno":
+                            this.finTurno();
+                            break;
 
                         //case "fin_EntregaDelivery":
                         //   this.FinEntregaPedido();
                         //   break;
 
                     }
+                    // Seteo los tiempos libres de los empleados
+
+                    //Empleado1
+                    if (actual.estadoEmpleado1 == "Libre" && anterior.estadoEmpleado1 == "Libre")
+                    {
+                        actual.tiempoLibreE1 += (actual.reloj - anterior.reloj);
+                    }
+                    else if (actual.estadoEmpleado1 == "Ocupado" && anterior.estadoEmpleado1 == "Libre")
+                    {
+                        actual.tiempoLibreE1 += actual.reloj - anterior.tiempoLibreE1;
+                    }
+                    //Empleado 2
+                    if (actual.estadoEmpleado2 == "Libre" && anterior.estadoEmpleado2 == "Libre")
+                    {
+                        actual.tiempoLibreE2 += (actual.reloj - anterior.reloj);
+                    }
+                    else if (actual.estadoEmpleado2 == "Ocupado" && anterior.estadoEmpleado2 == "Libre")
+                    {
+                        actual.tiempoLibreE2 += actual.reloj - anterior.tiempoLibreE2;
+                    }
+                    //Empleado 3
+                    if (actual.estadoEmpleado3 == "Libre" && anterior.estadoEmpleado3 == "Libre")
+                    {
+                        actual.tiempoLibreE3 += (actual.reloj - anterior.reloj);
+                    }
+                    else if (actual.estadoEmpleado3 == "Ocupado" && anterior.estadoEmpleado3 == "Libre")
+                    {
+                        actual.tiempoLibreE3 += actual.reloj - anterior.tiempoLibreE3;
+                    }
+
+                    
                     this.agregarDato(actual);
 
 
@@ -160,32 +203,26 @@ namespace TP_5_v2
             }
         }
 
-
+        
 
 
         public void llegadaPedido()
         {
             this.actual.numeroPedido = this.actual.proximoNumeroPedido;
             this.actual.proximoNumeroPedido++;
-            this.actual.proximaLlegadaPedido((Math.Truncate(rnd.NextDouble() * 100) / 100));
+            this.actual.proximaLlegadaPedido();
             this.actual.rndTipoPedido = Math.Truncate(rnd.NextDouble() * 100) / 100;
             this.actual.generarTipoDePedido(this.actual.rndTipoPedido);
+ 
+            //Asigno el pedido a un empleado
 
-            //Asigno el pedido a un empleado, esto cambiarlo despues
-            double randomAsignacion = Math.Truncate(rnd.NextDouble() * 100) / 100;
-            if (randomAsignacion < 0.33)
-            {
-                this.actual.empleadoDesignado = "Empleado 1";
-            }
-            else if (randomAsignacion > 0.33 && randomAsignacion < 0.66)
-            {
-                this.actual.empleadoDesignado = "Empleado 2";
-            }
-            else
-            {
-                this.actual.empleadoDesignado = "Empleado 3";
-            }
+            this.actual.empleadoDesignado = designarEmpleado();
+
+            //Creo el objeto actual
             Pedido pedidoActual = new Pedido(this.actual.numeroPedido, this.actual.tipoPedidoPedido);
+
+            //Calculo los tiempos de preparacion de los pedidos y si estan ocupado el servidor designado va a la cola
+
             switch (actual.empleadoDesignado)
             {
                 case "Empleado 1":
@@ -198,6 +235,7 @@ namespace TP_5_v2
                         this.actual.proximaFinPreparacionPedidoE1 = this.actual.reloj + this.actual.tiempoPreparacionPedidoE1;
                         this.actual.numeroPedidoEnPreparacion = pedidoActual.id;
                         this.actual.tipoPedidoEnPreparacion = pedidoActual.tipoPedido;
+
                         break;
 
                     }
@@ -254,7 +292,7 @@ namespace TP_5_v2
 
 
             }
-            
+
             
 
         }
@@ -350,44 +388,73 @@ namespace TP_5_v2
 
 
         private void agregarDato(Fila fila)
-            {
-                tabla.Rows.Add(
-                fila.reloj.ToString(),
-                fila.evento,
-                fila.numeroPedido,
-                fila.proximoNumeroPedido,
-                fila.rndLlegadaPedido == 0 ? "X" : fila.rndLlegadaPedido.ToString(),
-                fila.tiempoLlegadaPedido == 0 ? "X" : fila.tiempoLlegadaPedido.ToString(),
-                fila.proximaLlegadaPedidoo == 0 ? "X" : fila.proximaLlegadaPedidoo.ToString(),
-                fila.rndTipoPedido == 0 ? "X" : fila.rndTipoPedido.ToString(),
-                fila.tipoPedidoPedido,
-                fila.empleadoDesignado,
+        {
+            TimeSpan reloj = TimeSpan.FromMinutes(fila.reloj);
+            TimeSpan tiempoCierre = TimeSpan.FromMinutes(fila.tiempoCierre);
+            TimeSpan tiempoInicioTurno = TimeSpan.FromMinutes(fila.tiempoApertura);
 
-                fila.estadoEmpleado1,
-                fila.numeroPedidoEnPreparacion == 0 ? "X" : fila.numeroPedidoEnPreparacion.ToString(),
-                fila.tipoPedidoEnPreparacion,
-                fila.rndPreparacionPedidoE1 == 0 ? "X" : fila.rndPreparacionPedidoE1.ToString(),
-                fila.tiempoPreparacionPedidoE1 == 0 ? "X" : fila.tiempoPreparacionPedidoE1.ToString(),
-                fila.proximaFinPreparacionPedidoE1,
-                fila.ColaEmpleado1.Count(),
+            TimeSpan tiempoLlegadaPedido = TimeSpan.FromMinutes(fila.tiempoLlegadaPedido);
+            TimeSpan proximaLlegadaPedido = TimeSpan.FromMinutes(fila.proximaLlegadaPedidoo);
+            TimeSpan tiempoPreparacionPedidoE1 = TimeSpan.FromMinutes(fila.tiempoPreparacionPedidoE1);
+            TimeSpan proximoPreparacionPedidoE1 = TimeSpan.FromMinutes(fila.proximaFinPreparacionPedidoE1);
+            TimeSpan tiempoLibreE1 = TimeSpan.FromMinutes(fila.tiempoLibreE1);
 
-                fila.estadoEmpleado2,
-                fila.numeroPedidoEnPreparacionE2 == 0 ? "X" : fila.numeroPedidoEnPreparacionE2.ToString(),
-                fila.tipoPedidoEnPreparacionE2,
-                fila.rndPreparacionPedidoE2 == 0 ? "X" : fila.rndPreparacionPedidoE2.ToString(),
-                fila.tiempoPreparacionPedidoE2 == 0 ? "X" : fila.tiempoPreparacionPedidoE2.ToString(),
-                fila.proximaFinPreparacionPedidoE2,
-                fila.ColaEmpleado2.Count(),
+            TimeSpan tiempoPreparacionPedidoE2 = TimeSpan.FromMinutes(fila.tiempoPreparacionPedidoE2);
+            TimeSpan proximoPreparacionPedidoE2 = TimeSpan.FromMinutes(fila.proximaFinPreparacionPedidoE2);
+            TimeSpan tiempoLibreE2 = TimeSpan.FromMinutes(fila.tiempoLibreE2);
 
-                fila.estadoEmpleado3,
-                fila.numeroPedidoEnPreparacionE3 == 0 ? "X" : fila.numeroPedidoEnPreparacionE3.ToString(),
-                fila.tipoPedidoEnPreparacionE3,
-                fila.rndPreparacionPedidoE3 == 0 ? "X" : fila.rndPreparacionPedidoE3.ToString(),
-                fila.tiempoPreparacionPedidoE3 == 0 ? "X" : fila.tiempoPreparacionPedidoE3.ToString(),
-                fila.proximaFinPreparacionPedidoE3,
-                fila.ColaEmpleado3.Count()
+            TimeSpan tiempoPreparacionPedidoE3 = TimeSpan.FromMinutes(fila.tiempoPreparacionPedidoE3);
+            TimeSpan proximoPreparacionPedidoE3 = TimeSpan.FromMinutes(fila.proximaFinPreparacionPedidoE3);
+            TimeSpan tiempoLibreE3 = TimeSpan.FromMinutes(fila.tiempoLibreE3);
 
-                );
+            tabla.Rows.Add(
+            reloj.ToString("hh':'mm':'ss"),
+            fila.evento,
+            fila.numeroPedido,
+            fila.proximoNumeroPedido,
+            fila.rndLlegadaPedido == 0 ? "X" : fila.rndLlegadaPedido.ToString(),
+            fila.tiempoLlegadaPedido == 0 ? "X" : tiempoLlegadaPedido.ToString("hh':'mm':'ss"),
+            fila.proximaLlegadaPedidoo == 0 ? "X" : proximaLlegadaPedido.ToString("hh':'mm':'ss"),
+            fila.rndTipoPedido == 0 ? "X" : fila.rndTipoPedido.ToString(),
+            fila.tipoPedidoPedido,
+            fila.empleadoDesignado,
+
+            fila.estadoEmpleado1,
+            fila.numeroPedidoEnPreparacion == 0 ? "X" : fila.numeroPedidoEnPreparacion.ToString(),
+            fila.tipoPedidoEnPreparacion,
+            fila.rndPreparacionPedidoE1 == 0 ? "X" : fila.rndPreparacionPedidoE1.ToString(),
+            fila.tiempoPreparacionPedidoE1 == 0 ? "X" : tiempoPreparacionPedidoE1.ToString("hh':'mm':'ss"),
+            proximoPreparacionPedidoE1.ToString("hh':'mm':'ss"),
+            fila.ColaEmpleado1.Count(),
+            tiempoLibreE1.ToString("hh':'mm':'ss"),
+
+            fila.estadoEmpleado2,
+            fila.numeroPedidoEnPreparacionE2 == 0 ? "X" : fila.numeroPedidoEnPreparacionE2.ToString(),
+            fila.tipoPedidoEnPreparacionE2,
+            fila.rndPreparacionPedidoE2 == 0 ? "X" : fila.rndPreparacionPedidoE2.ToString(),
+            fila.tiempoPreparacionPedidoE2 == 0 ? "X" : tiempoPreparacionPedidoE2.ToString("hh':'mm':'ss"),
+            proximoPreparacionPedidoE2.ToString("hh':'mm':'ss"),
+            fila.ColaEmpleado2.Count(),
+            tiempoLibreE2.ToString("hh':'mm':'ss"),
+
+            fila.estadoEmpleado3,
+            fila.numeroPedidoEnPreparacionE3 == 0 ? "X" : fila.numeroPedidoEnPreparacionE3.ToString(),
+            fila.tipoPedidoEnPreparacionE3,
+            fila.rndPreparacionPedidoE3 == 0 ? "X" : fila.rndPreparacionPedidoE3.ToString(),
+            fila.tiempoPreparacionPedidoE3 == 0 ? "X" : tiempoPreparacionPedidoE3.ToString("hh':'mm':'ss"),
+            proximoPreparacionPedidoE3.ToString("hh':'mm':'ss"),
+            fila.ColaEmpleado3.Count(),
+            tiempoLibreE3.ToString("hh':'mm':'ss"),
+            "-",
+            "-",
+            "-",
+            "-",
+            fila.estadoLocal,
+            tiempoCierre.ToString("hh':'mm':'ss")
+            
+
+            );
+            
 
             //int i = 0;
             //foreach (var cliente in this.objetos)
@@ -425,7 +492,7 @@ namespace TP_5_v2
 
             //Carga de los parametros del pedido
 
-            this.txtMediaLlegadaPedido.Text = "12"; // en minutos , no en unidades
+            this.txtMediaLlegadaPedido.Text = "5"; //  en unidades x hora
             this.txtMediaTiempoDeEntrega.Text = "3";
             this.txtTiempoTolerancia.Text = "60";
             this.txtTiempoEntregaGratis.Text = "25";
@@ -441,6 +508,64 @@ namespace TP_5_v2
 
 
 
+
+        }
+
+        public string designarEmpleado()
+        {
+            string empleado;
+            double randomAsignacion = Math.Truncate(rnd.NextDouble() * 100) / 100;
+            double maximo = Math.Max(anterior.tiempoLibreE1, anterior.tiempoLibreE2);
+            if (anterior.tiempoLibreE1 == anterior.tiempoLibreE2 && anterior.tiempoLibreE2 == anterior.tiempoLibreE3)
+            {
+               
+                if (randomAsignacion < 0.33)
+                {
+                    empleado = "Empleado 1";
+                }
+                else if (randomAsignacion > 0.33 && randomAsignacion < 0.66)
+                {
+                    empleado = "Empleado 2";
+                }
+                else
+                {
+                    empleado = "Empleado 3";
+                }
+            }
+            else
+            {
+                if (maximo < anterior.tiempoLibreE3)
+                {
+                    maximo = anterior.tiempoLibreE3;
+                    empleado = "Empleado 3";
+                }
+                else if (maximo == anterior.tiempoLibreE1)
+                {
+                    empleado = "Empleado 1";
+                }
+                else
+                {
+                    empleado = "Empleado 2";
+                }
+            }
+            
+           
+            return empleado;
+
+
+
+        }
+        
+        public void finTurno()
+        {
+            actual.proximoNumeroPedido = 0;
+            actual.proximaLlegadaPedidoo = 0;
+            actual.rndLlegadaPedido = 0;
+            actual.tiempoLlegadaPedido = 0;
+            actual.rndTipoPedido = 0;
+            actual.empleadoDesignado = "X";
+            actual.estadoLocal = "Cerrado";
+            actual.tiempoCierre = 1320;
 
         }
     }
