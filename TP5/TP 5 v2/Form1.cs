@@ -15,6 +15,7 @@ namespace TP_5_v2
         List<Pedido> objetos = new List<Pedido>(); 
 
         Fila actual;
+        Fila inicio;
         Fila anterior;
         Random rnd = new Random();
         DataTable tabla = new DataTable();
@@ -47,6 +48,8 @@ namespace TP_5_v2
             int desvPrepSandwichNormal = int.Parse(this.txtDesvSandwich.Text.Trim());
             int mediaTiempoEntrega = int.Parse(this.txtMediaTiempoDeEntrega.Text.Trim());
 
+            mediaLlegadaPedido = 60 / mediaLlegadaPedido;
+
             // tomamos lo datos de los inputs de los costos de los pedidos
             double costo_pizza = int.Parse(this.TxtCostoPizza.Text.Trim());
             double costo_sandwich = int.Parse(this.TxtCostoSandwich.Text.Trim());
@@ -67,6 +70,7 @@ namespace TP_5_v2
             tabla.Columns.Add("Proxima Llegada Pedido");
             tabla.Columns.Add("RND Tipo Pedido");
             tabla.Columns.Add("Tipo Pedido");
+            tabla.Columns.Add("Cantidad empanadas");
             tabla.Columns.Add("Empleado Asignado");
 
             //Empleados
@@ -79,6 +83,7 @@ namespace TP_5_v2
             tabla.Columns.Add("Proximo Fin Prep 1");
             tabla.Columns.Add("Cola Emp 1");
             tabla.Columns.Add("Tiempo Libre E1");
+            //tabla.Columns.Add("Ultimo pedido terminado E1");
             //Emplado 2
             tabla.Columns.Add("EstadoEmpleado2");
             tabla.Columns.Add("Pedido2");
@@ -88,6 +93,7 @@ namespace TP_5_v2
             tabla.Columns.Add("Proximo Fin Prep 2");
             tabla.Columns.Add("Cola Emp 2");
             tabla.Columns.Add("Tiempo Libre E2");
+            //tabla.Columns.Add("Ultimo pedido terminado E2");
             //Empleado 3
             tabla.Columns.Add("EstadoEmpleado3");
             tabla.Columns.Add("Pedido3");
@@ -97,29 +103,29 @@ namespace TP_5_v2
             tabla.Columns.Add("Proximo Fin Prep 3");
             tabla.Columns.Add("Cola Emp 3");
             tabla.Columns.Add("Tiempo Libre E3");
+            //tabla.Columns.Add("Ultimo pedido terminado E3");
 
             //Delivery
             tabla.Columns.Add("Cola Delivery");
             tabla.Columns.Add("RND Delivery");
             tabla.Columns.Add("Tiempo Entrega");
             tabla.Columns.Add("Fin Entrega");
+            //tabla.Columns.Add("Ultimo pedido entregado");
 
             //Local
             tabla.Columns.Add("Estado Local");
             tabla.Columns.Add("Proximo Cierre");
             tabla.Columns.Add("Inicio turno");
 
-
+            inicio = new Fila(1, 0, "Inicializacion", 960, mediaLlegadaPedido, 0.53, "-", 0,"Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 960, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 960, "Libre", new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito, "Abierto", 1320, 1.439);
             //Inicializamos las filas
-            //actual = new Fila(mediaLlegadaPedido, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, "Inicializacion", 0, (Math.Truncate(rnd.NextDouble() * 100) / 100), 0, 0, 0, new Queue<Pedido>(), new Queue<Pedido>(), "Libre", "Libre", "Libre", "Libre");
+            
 
-            //anterior = (Fila)actual.Clone();
-
-            while (i < cantIteraciones) //valor para controlar
+            while (i < cantIteraciones) // cantidad de minutos a simular deberia ser. y que el i tome el valor del reloj en minutos.?????
 
             {
                 if (i == 0) {
-                    actual = new Fila(1, 0, "Inicializacion", 480, mediaLlegadaPedido, 0.53 , "-", "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(),480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(),480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(),480, "Libre", new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito,"Abierto",840,960);
+                    actual = new Fila(1, 0, "Inicializacion", 480, mediaLlegadaPedido, 0.53 , "-", 0,"Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(),480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(),480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(),480, "Libre", new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito,"Abierto",840,960);
                     actual.proximaLlegadaPedido();
                     this.agregarDato(this.actual);
                     anterior = (Fila)actual.Clone();
@@ -156,10 +162,13 @@ namespace TP_5_v2
                         case "Fin del turno":
                             this.finTurno();
                             break;
+                        case "Inicio de turno":
+                            this.inicioTurno();
+                            break;
 
-                        //case "fin_EntregaDelivery":
-                        //   this.FinEntregaPedido();
-                        //   break;
+                            //case "fin_EntregaDelivery":
+                            //   this.FinEntregaPedido();
+                            //   break;
 
                     }
                     // Seteo los tiempos libres de los empleados
@@ -192,6 +201,10 @@ namespace TP_5_v2
                         actual.tiempoLibreE3 += actual.reloj - anterior.tiempoLibreE3;
                     }
 
+                    if (actual.tipoPedidoPedido != "Empanadas")
+                    {
+                        actual.cantidadEmpanadas = 0;
+                    }
                     
                     this.agregarDato(actual);
 
@@ -213,10 +226,14 @@ namespace TP_5_v2
             this.actual.proximaLlegadaPedido();
             this.actual.rndTipoPedido = Math.Truncate(rnd.NextDouble() * 100) / 100;
             this.actual.generarTipoDePedido(this.actual.rndTipoPedido);
+            if (this.actual.tipoPedidoPedido == "Empanadas") 
+            {
+                this.actual.cantidadEmpanadas = generarCantEmpanadas();
+            } 
  
             //Asigno el pedido a un empleado
 
-            this.actual.empleadoDesignado = designarEmpleado();
+            this.actual.empleadoDesignado = designarEmpleado(this.actual.numeroPedido);
 
             //Creo el objeto actual
             Pedido pedidoActual = new Pedido(this.actual.numeroPedido, this.actual.tipoPedidoPedido);
@@ -417,6 +434,7 @@ namespace TP_5_v2
             fila.proximaLlegadaPedidoo == 0 ? "X" : proximaLlegadaPedido.ToString("hh':'mm':'ss"),
             fila.rndTipoPedido == 0 ? "X" : fila.rndTipoPedido.ToString(),
             fila.tipoPedidoPedido,
+            fila.cantidadEmpanadas == 0 ? "X" : fila.cantidadEmpanadas.ToString(),
             fila.empleadoDesignado,
 
             fila.estadoEmpleado1,
@@ -511,49 +529,65 @@ namespace TP_5_v2
 
         }
 
-        public string designarEmpleado()
+        public string designarEmpleado(int numeroPedido)
         {
-            string empleado;
+            string empleado = "Empleado 1";
             double randomAsignacion = Math.Truncate(rnd.NextDouble() * 100) / 100;
             double maximo = Math.Max(anterior.tiempoLibreE1, anterior.tiempoLibreE2);
-            if (anterior.tiempoLibreE1 == anterior.tiempoLibreE2 && anterior.tiempoLibreE2 == anterior.tiempoLibreE3)
+
+            if (numeroPedido <= 3)
             {
-               
-                if (randomAsignacion < 0.33)
+                switch (numeroPedido)
                 {
-                    empleado = "Empleado 1";
-                }
-                else if (randomAsignacion > 0.33 && randomAsignacion < 0.66)
-                {
-                    empleado = "Empleado 2";
-                }
-                else
-                {
-                    empleado = "Empleado 3";
+                    case 1:
+                        empleado = "Empleado 1";
+                        break;
+                    case 2:
+                        empleado = "Empleado 2";
+                        break;
+                    case 3:
+                        empleado = "Empleado 3";
+                        break;
                 }
             }
             else
             {
-                if (maximo < anterior.tiempoLibreE3)
+
+                if (anterior.tiempoLibreE1 == anterior.tiempoLibreE2 && anterior.tiempoLibreE2 == anterior.tiempoLibreE3)
                 {
-                    maximo = anterior.tiempoLibreE3;
-                    empleado = "Empleado 3";
-                }
-                else if (maximo == anterior.tiempoLibreE1)
-                {
-                    empleado = "Empleado 1";
+
+                    if (randomAsignacion < 0.33)
+                    {
+                        empleado = "Empleado 1";
+                    }
+                    else if (randomAsignacion > 0.33 && randomAsignacion < 0.66)
+                    {
+                        empleado = "Empleado 2";
+                    }
+                    else
+                    {
+                        empleado = "Empleado 3";
+                    }
                 }
                 else
                 {
-                    empleado = "Empleado 2";
+                    if (maximo < anterior.tiempoLibreE3)
+                    {
+                        maximo = anterior.tiempoLibreE3;
+                        empleado = "Empleado 3";
+                    }
+                    else if (maximo == anterior.tiempoLibreE1)
+                    {
+                        empleado = "Empleado 1";
+                    }
+                    else
+                    {
+                        empleado = "Empleado 2";
+                    }
                 }
+
             }
-            
-           
             return empleado;
-
-
-
         }
         
         public void finTurno()
@@ -567,6 +601,34 @@ namespace TP_5_v2
             actual.estadoLocal = "Cerrado";
             actual.tiempoCierre = 1320;
 
+        }
+
+        public void inicioTurno()
+        {
+            actual = (Fila)inicio.Clone();
+            actual.proximaLlegadaPedido();
+            anterior = (Fila)actual.Clone();
+        }
+
+        public int generarCantEmpanadas()
+        {
+            
+            int n = 0;
+            Random random = new Random();
+
+           
+            double valorPoisson = Math.Exp(-3); //-mediaLlegadaPedido * (Math.Log(1 - random1));
+            double random2 = random.NextDouble();
+            for (n = 0; random2 > valorPoisson; n++) 
+            {
+                random2 *= random.NextDouble();
+            }
+
+            if (n > 3)
+            {
+                n = 3;
+            }
+            return n;
         }
     }
 }

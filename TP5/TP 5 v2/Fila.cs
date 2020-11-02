@@ -25,6 +25,7 @@ namespace TP_5_v2
         //TipoPedido
         public double rndTipoPedido;
         public string tipoPedidoPedido;
+        public int cantidadEmpanadas; //solo se calcula la cantidad para las empanadas
 
         // Asignacion del empleado
         public string empleadoDesignado;
@@ -72,6 +73,7 @@ namespace TP_5_v2
         public string estadoLocal;
         public double tiempoCierre;
         public double tiempoApertura;
+
         // Parametros de la prep de pedidos
         //Pizza
         public int limiteA_Prep_Pizza ;
@@ -92,7 +94,7 @@ namespace TP_5_v2
         public double costo_hamburguesa;
         public double costo_lomito;
 
-        public Fila(int proximoNumeroPedido, int numeroPedido, string evento, double reloj, int mediaLlegadaPedido, double rndTipoPedido, string empleadoDesignado, string estadoEmpleado1, double numeroPedidoEnPreparacion, string tipoPedidoEnPreparacion, double rndPreparacionPedidoE1, double tiempoPreparacionPedidoE1, double proximaFinPreparacionPedidoE1, Queue<Pedido> colaEmpleado1, double tiempoLibreE1, string estadoEmpleado2, double numeroPedidoEnPreparacionE2, string tipoPedidoEnPreparacionE2, double rndPreparacionPedidoE2, double tiempoPreparacionPedidoE2, double proximaFinPreparacionPedidoE2, Queue<Pedido> colaEmpleado2, double tiempoLibreE2, string estadoEmpleado3, double numeroPedidoEnPreparacionE3, string tipoPedidoEnPreparacionE3, double rndPreparacionPedidoE3, double tiempoPreparacionPedidoE3, double proximaFinPreparacionPedidoE3, Queue<Pedido> colaEmpleado3, double tiempoLibreE3, string estadoDelivery, Queue<Pedido> colaDelivery, double rndEntregaPedido, double tiempoEntregaPedido, double proximaFinEntregaPedido, int limiteA_Prep_Pizza, int limiteB_Prep_Pizza, int mediaPrepSandwichNormal, int desvPrepSandwichNormal, int mediaTiempoEntrega, double costo_pizza, double costo_sandwich, double costo_empanadas, double costo_hamburguesa, double costo_lomito, string estadoLocal, double tiempoCierre, double tiempoApertura)
+        public Fila(int proximoNumeroPedido, int numeroPedido, string evento, double reloj, int mediaLlegadaPedido, double rndTipoPedido, string empleadoDesignado, int cantidadEmpanadas,string estadoEmpleado1, double numeroPedidoEnPreparacion, string tipoPedidoEnPreparacion, double rndPreparacionPedidoE1, double tiempoPreparacionPedidoE1, double proximaFinPreparacionPedidoE1, Queue<Pedido> colaEmpleado1, double tiempoLibreE1, string estadoEmpleado2, double numeroPedidoEnPreparacionE2, string tipoPedidoEnPreparacionE2, double rndPreparacionPedidoE2, double tiempoPreparacionPedidoE2, double proximaFinPreparacionPedidoE2, Queue<Pedido> colaEmpleado2, double tiempoLibreE2, string estadoEmpleado3, double numeroPedidoEnPreparacionE3, string tipoPedidoEnPreparacionE3, double rndPreparacionPedidoE3, double tiempoPreparacionPedidoE3, double proximaFinPreparacionPedidoE3, Queue<Pedido> colaEmpleado3, double tiempoLibreE3, string estadoDelivery, Queue<Pedido> colaDelivery, double rndEntregaPedido, double tiempoEntregaPedido, double proximaFinEntregaPedido, int limiteA_Prep_Pizza, int limiteB_Prep_Pizza, int mediaPrepSandwichNormal, int desvPrepSandwichNormal, int mediaTiempoEntrega, double costo_pizza, double costo_sandwich, double costo_empanadas, double costo_hamburguesa, double costo_lomito, string estadoLocal, double tiempoCierre, double tiempoApertura)
         {
             this.proximoNumeroPedido = proximoNumeroPedido;
             this.numeroPedido = numeroPedido;
@@ -106,6 +108,8 @@ namespace TP_5_v2
             this.estadoEmpleado1 = estadoEmpleado1;
             this.numeroPedidoEnPreparacion = numeroPedidoEnPreparacion;
             this.tipoPedidoEnPreparacion = tipoPedidoEnPreparacion;
+            this.cantidadEmpanadas = cantidadEmpanadas;
+
             this.rndPreparacionPedidoE1 = rndPreparacionPedidoE1;
             this.tiempoPreparacionPedidoE1 = tiempoPreparacionPedidoE1;
             this.proximaFinPreparacionPedidoE1 = proximaFinPreparacionPedidoE1;
@@ -156,7 +160,6 @@ namespace TP_5_v2
             int n = 0;
             Random random = new Random();
             
-            double random1 = random.NextDouble();
             double valorPoisson = Math.Exp(-mediaLlegadaPedido); //-mediaLlegadaPedido * (Math.Log(1 - random1));
             double random2 = random.NextDouble();
             for (n = 0; random2 > valorPoisson; n++)
@@ -223,7 +226,17 @@ namespace TP_5_v2
                 }
 
             }
-
+            else if (tipo == "Empanadas") //aca uso la cantidad de empanadas que ya deberia estar seteada cuando se produce la llegada del pedidp
+            {
+                if (cantidadEmpanadas < 3) 
+                {
+                    time = 2.5;
+                }
+                else
+                {
+                    time = 3;
+                }
+            }
             else if (tipo == "Lomito")
             {
                 time =  5 ;
@@ -264,14 +277,33 @@ namespace TP_5_v2
 
                 if (proximoNumeroPedido == 0)
                 {
-                    proxEvento = "fin_PreparacionPedido E1";
-                    relojMinimo = this.proximaFinPreparacionPedidoE1;
+                       if(proximaFinPreparacionPedidoE1 != 0)
+                       {
+                            relojMinimo = this.proximaFinPreparacionPedidoE1;
+                            proxEvento = "fin_PreparacionPedido E1";
+                       }
+                       else if (proximaFinPreparacionPedidoE2 != 0)
+                       {
+                            relojMinimo = this.proximaFinPreparacionPedidoE2;
+                            proxEvento = "fin_PreparacionPedido E2";
+                       }
+                       else if (proximaFinPreparacionPedidoE3 != 0)
+                       {
+                            relojMinimo = this.proximaFinPreparacionPedidoE2;
+                            proxEvento = "fin_PreparacionPedido E3";
+                       }
+                       else
+                       {
+                            proxEvento = "Inicio de turno";
+                            relojMinimo = this.tiempoApertura;
+                       }
                 }
                 else
                 {
                     proxEvento = "llegada_Pedido";
                     relojMinimo = proximaLlegadaPedidoo;
-                }        
+                }
+                
                 if (relojMinimo > this.proximaFinPreparacionPedidoE1 && this.proximaFinPreparacionPedidoE1 != 0)
                 {
                     relojMinimo = this.proximaFinPreparacionPedidoE1;
@@ -300,12 +332,9 @@ namespace TP_5_v2
                     relojMinimo = this.tiempoCierre;
                     proxEvento = "Fin del turno";
                 }
-                if (proximaLlegadaPedidoo == 0)
-                {
-                    
-                }
+                
             this.reloj = relojMinimo;
-                this.evento = proxEvento;
+            this.evento = proxEvento;
         }
         
 
