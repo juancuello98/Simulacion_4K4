@@ -33,7 +33,6 @@
             this.txtMinHasta = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtMinDesde = new System.Windows.Forms.TextBox();
-            this.dataGridView = new System.Windows.Forms.DataGridView();
             this.label13 = new System.Windows.Forms.Label();
             this.txtMinSimulacion = new System.Windows.Forms.TextBox();
             this.btnSimular = new System.Windows.Forms.Button();
@@ -89,8 +88,30 @@
             this.label22 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.btnCargarEjemplo = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.Grilla = new System.Windows.Forms.TabPage();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lblTiempoLibre = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -101,6 +122,10 @@
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox11.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.Grilla.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox3
@@ -147,14 +172,6 @@
             this.txtMinDesde.Name = "txtMinDesde";
             this.txtMinDesde.Size = new System.Drawing.Size(67, 20);
             this.txtMinDesde.TabIndex = 0;
-            // 
-            // dataGridView
-            // 
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(12, 283);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(1355, 365);
-            this.dataGridView.TabIndex = 32;
             // 
             // label13
             // 
@@ -663,11 +680,225 @@
             this.btnCargarEjemplo.UseVisualStyleBackColor = true;
             this.btnCargarEjemplo.Click += new System.EventHandler(this.btnCargarEjemplo_Click);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.Grilla);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(17, 267);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1350, 440);
+            this.tabControl1.TabIndex = 44;
+            // 
+            // Grilla
+            // 
+            this.Grilla.Controls.Add(this.dataGridView);
+            this.Grilla.Location = new System.Drawing.Point(4, 22);
+            this.Grilla.Name = "Grilla";
+            this.Grilla.Padding = new System.Windows.Forms.Padding(3);
+            this.Grilla.Size = new System.Drawing.Size(1342, 414);
+            this.Grilla.TabIndex = 0;
+            this.Grilla.Text = "Grilla";
+            this.Grilla.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView
+            // 
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.Size = new System.Drawing.Size(1333, 405);
+            this.dataGridView.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.label31);
+            this.tabPage2.Controls.Add(this.textBox9);
+            this.tabPage2.Controls.Add(this.label29);
+            this.tabPage2.Controls.Add(this.textBox8);
+            this.tabPage2.Controls.Add(this.label34);
+            this.tabPage2.Controls.Add(this.textBox7);
+            this.tabPage2.Controls.Add(this.label33);
+            this.tabPage2.Controls.Add(this.textBox6);
+            this.tabPage2.Controls.Add(this.label32);
+            this.tabPage2.Controls.Add(this.textBox5);
+            this.tabPage2.Controls.Add(this.label30);
+            this.tabPage2.Controls.Add(this.textBox4);
+            this.tabPage2.Controls.Add(this.label28);
+            this.tabPage2.Controls.Add(this.textBox3);
+            this.tabPage2.Controls.Add(this.label27);
+            this.tabPage2.Controls.Add(this.textBox2);
+            this.tabPage2.Controls.Add(this.label26);
+            this.tabPage2.Controls.Add(this.textBox1);
+            this.tabPage2.Controls.Add(this.lblTiempoLibre);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1342, 414);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Resultados";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // lblTiempoLibre
+            // 
+            this.lblTiempoLibre.AutoSize = true;
+            this.lblTiempoLibre.Location = new System.Drawing.Point(227, 121);
+            this.lblTiempoLibre.Name = "lblTiempoLibre";
+            this.lblTiempoLibre.Size = new System.Drawing.Size(251, 13);
+            this.lblTiempoLibre.TabIndex = 0;
+            this.lblTiempoLibre.Text = "Tiempo promedio libre de los empleados de coccion";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(484, 118);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 1;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(484, 144);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 3;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(229, 149);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(249, 13);
+            this.label26.TabIndex = 2;
+            this.label26.Text = "Tiempo promedio libre de los empleados de delivery";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(484, 170);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 20);
+            this.textBox3.TabIndex = 5;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(299, 173);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(179, 13);
+            this.label27.TabIndex = 4;
+            this.label27.Text = "Ventas perdidas en promedio por dia";
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(484, 196);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(100, 20);
+            this.textBox4.TabIndex = 7;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(302, 199);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(173, 13);
+            this.label28.TabIndex = 6;
+            this.label28.Text = "Ventas con entrega gratuita por dia";
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(484, 222);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(100, 20);
+            this.textBox5.TabIndex = 10;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(368, 222);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(104, 13);
+            this.label30.TabIndex = 9;
+            this.label30.Text = "Valor de los ingresos";
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(865, 177);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(100, 20);
+            this.textBox6.TabIndex = 13;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(678, 177);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(175, 13);
+            this.label32.TabIndex = 12;
+            this.label32.Text = "Numero maximo de ventas perdidas";
+            // 
+            // textBox7
+            // 
+            this.textBox7.Location = new System.Drawing.Point(865, 123);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(100, 20);
+            this.textBox7.TabIndex = 15;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(716, 123);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(140, 13);
+            this.label33.TabIndex = 14;
+            this.label33.Text = "Valor de las ventas perdidas";
+            // 
+            // textBox8
+            // 
+            this.textBox8.Location = new System.Drawing.Point(865, 149);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(100, 20);
+            this.textBox8.TabIndex = 17;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(695, 152);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(158, 13);
+            this.label34.TabIndex = 16;
+            this.label34.Text = "Ingreso promedio diario y desvio";
+            // 
+            // textBox9
+            // 
+            this.textBox9.Location = new System.Drawing.Point(864, 209);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(100, 20);
+            this.textBox9.TabIndex = 19;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(659, 203);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(194, 26);
+            this.label29.TabIndex = 18;
+            this.label29.Text = "Tiempo promedio de espera para\r\ncomenzar a ser procesado cada pedido";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.Location = new System.Drawing.Point(538, 48);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(206, 20);
+            this.label31.TabIndex = 20;
+            this.label31.Text = "Resultados de la simulacion";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1379, 709);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnCargarEjemplo);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label22);
@@ -681,7 +912,6 @@
             this.Controls.Add(this.txtDuracionTurno);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.txtMinSimulacion);
             this.Controls.Add(this.btnSimular);
@@ -693,7 +923,6 @@
             this.Text = "Form1";
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -714,6 +943,11 @@
             this.groupBox10.PerformLayout();
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.Grilla.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -726,7 +960,6 @@
         private System.Windows.Forms.TextBox txtMinHasta;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtMinDesde;
-        private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox txtMinSimulacion;
         private System.Windows.Forms.Button btnSimular;
@@ -782,6 +1015,29 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Button btnCargarEjemplo;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage Grilla;
+        private System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Label lblTiempoLibre;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

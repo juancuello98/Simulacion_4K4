@@ -15,6 +15,7 @@ namespace TP_5_v2
         public int numeroPedido = 0;
         public string evento;
         public double reloj;
+        public int dia;
 
         //Evento llegada Pedido
         public double rndLlegadaPedido;
@@ -83,6 +84,15 @@ namespace TP_5_v2
         public int mediaPrepSandwichNormal ;
         public int desvPrepSandwichNormal;
         //FALTA LO DE LAS EMPANADAS , LOMITOS Y HAMBURGUESAS
+        //empanadas
+        private double preparacionEmpanadas;
+
+        //Lomitos
+        private double preparacionLomito;
+        //Hamburguesas
+        private double preparacionHamburguesa;
+        //Duracion turno
+
         //media de entrega de pedidos
         public int mediaTiempoEntrega ;
 
@@ -94,12 +104,17 @@ namespace TP_5_v2
         public double costo_hamburguesa;
         public double costo_lomito;
 
-        public Fila(int proximoNumeroPedido, int numeroPedido, string evento, double reloj, int mediaLlegadaPedido, double rndTipoPedido, string empleadoDesignado, int cantidadEmpanadas,string estadoEmpleado1, double numeroPedidoEnPreparacion, string tipoPedidoEnPreparacion, double rndPreparacionPedidoE1, double tiempoPreparacionPedidoE1, double proximaFinPreparacionPedidoE1, Queue<Pedido> colaEmpleado1, double tiempoLibreE1, string estadoEmpleado2, double numeroPedidoEnPreparacionE2, string tipoPedidoEnPreparacionE2, double rndPreparacionPedidoE2, double tiempoPreparacionPedidoE2, double proximaFinPreparacionPedidoE2, Queue<Pedido> colaEmpleado2, double tiempoLibreE2, string estadoEmpleado3, double numeroPedidoEnPreparacionE3, string tipoPedidoEnPreparacionE3, double rndPreparacionPedidoE3, double tiempoPreparacionPedidoE3, double proximaFinPreparacionPedidoE3, Queue<Pedido> colaEmpleado3, double tiempoLibreE3, string estadoDelivery, Queue<Pedido> colaDelivery, double rndEntregaPedido, double tiempoEntregaPedido, double proximaFinEntregaPedido, int limiteA_Prep_Pizza, int limiteB_Prep_Pizza, int mediaPrepSandwichNormal, int desvPrepSandwichNormal, int mediaTiempoEntrega, double costo_pizza, double costo_sandwich, double costo_empanadas, double costo_hamburguesa, double costo_lomito, string estadoLocal, double tiempoCierre, double tiempoApertura)
+        public double PreparacionEmpanadas { get => preparacionEmpanadas; set => preparacionEmpanadas = value; }
+        public double PreparacionLomito { get => preparacionLomito; set => preparacionLomito = value; }
+        public double PreparacionHamburguesa { get => preparacionHamburguesa; set => preparacionHamburguesa = value; }
+
+        public Fila(int dia,int proximoNumeroPedido, int numeroPedido, string evento, double reloj, int mediaLlegadaPedido, double rndTipoPedido, string empleadoDesignado, int cantidadEmpanadas,string estadoEmpleado1, double numeroPedidoEnPreparacion, string tipoPedidoEnPreparacion, double rndPreparacionPedidoE1, double tiempoPreparacionPedidoE1, double proximaFinPreparacionPedidoE1, Queue<Pedido> colaEmpleado1, double tiempoLibreE1, string estadoEmpleado2, double numeroPedidoEnPreparacionE2, string tipoPedidoEnPreparacionE2, double rndPreparacionPedidoE2, double tiempoPreparacionPedidoE2, double proximaFinPreparacionPedidoE2, Queue<Pedido> colaEmpleado2, double tiempoLibreE2, string estadoEmpleado3, double numeroPedidoEnPreparacionE3, string tipoPedidoEnPreparacionE3, double rndPreparacionPedidoE3, double tiempoPreparacionPedidoE3, double proximaFinPreparacionPedidoE3, Queue<Pedido> colaEmpleado3, double tiempoLibreE3, string estadoDelivery, Queue<Pedido> colaDelivery, double rndEntregaPedido, double tiempoEntregaPedido, double proximaFinEntregaPedido, int limiteA_Prep_Pizza, int limiteB_Prep_Pizza, int mediaPrepSandwichNormal, int desvPrepSandwichNormal, int mediaTiempoEntrega, double costo_pizza, double costo_sandwich, double costo_empanadas, double costo_hamburguesa, double costo_lomito, string estadoLocal, double tiempoCierre, double tiempoApertura)
         {
             this.proximoNumeroPedido = proximoNumeroPedido;
             this.numeroPedido = numeroPedido;
             this.evento = evento;
-            this.reloj = reloj; 
+            this.reloj = reloj;
+            this.dia = dia;
 
             this.mediaLlegadaPedido = mediaLlegadaPedido;
             this.rndTipoPedido = rndTipoPedido;
@@ -162,13 +177,14 @@ namespace TP_5_v2
             
             double valorPoisson = Math.Exp(-mediaLlegadaPedido); //-mediaLlegadaPedido * (Math.Log(1 - random1));
             double random2 = random.NextDouble();
+            this.rndLlegadaPedido = Math.Truncate(random2 * 100) / 100;
             for (n = 0; random2 > valorPoisson; n++)
             {
                 random2 *= random.NextDouble();
             }
             
 
-            this.rndLlegadaPedido = random2;
+            
             this.tiempoLlegadaPedido = n;
             Console.WriteLine("N: " + n);
 
@@ -239,14 +255,14 @@ namespace TP_5_v2
             }
             else if (tipo == "Lomito")
             {
-                time =  5 ;
+                time =  preparacionLomito ;
 
             }
 
             else
             {
 
-                time =  15 ;
+                time =  preparacionHamburguesa ;
             }
 
             return time;
@@ -289,7 +305,7 @@ namespace TP_5_v2
                        }
                        else if (proximaFinPreparacionPedidoE3 != 0)
                        {
-                            relojMinimo = this.proximaFinPreparacionPedidoE2;
+                            relojMinimo = this.proximaFinPreparacionPedidoE3;
                             proxEvento = "fin_PreparacionPedido E3";
                        }
                        else
