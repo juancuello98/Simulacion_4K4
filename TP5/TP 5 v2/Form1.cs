@@ -32,6 +32,8 @@ namespace TP_5_v2
         {
             desde = double.Parse(this.txtMinDesde.Text.Trim());
             hasta = double.Parse(this.txtMinHasta.Text.Trim());
+            desde += 480;
+            hasta += 480;
             int cantIteraciones = int.Parse(this.txtMinSimulacion.Text.Trim());
 
             //Limpiar tabla
@@ -60,6 +62,8 @@ namespace TP_5_v2
             double preparacionEmpanadas = double.Parse(txtPrepEmpanadas.Text.Trim());
             double preparacionHamburguesa = double.Parse(txtPrepHamburguesa.Text.Trim());
             double preparacionLomito = double.Parse(txtPrepLomitos.Text.Trim());
+            double minutosAIterar = double.Parse(txtMinSimulacion.Text.Trim());
+            minutosAIterar += 480;
 
 
             double i = 0;
@@ -127,7 +131,7 @@ namespace TP_5_v2
             //Inicializamos las filas
             
 
-            while (i < cantIteraciones) // cantidad de minutos a simular deberia ser. y que el i tome el valor del reloj en minutos.?????
+            while (i < minutosAIterar) // cantidad de minutos a simular deberia ser. y que el i tome el valor del reloj en minutos.?????
 
             {
                 if (i == 0) {
@@ -144,7 +148,7 @@ namespace TP_5_v2
                 //i = this.actual.reloj;
 
 
-                if (i < cantIteraciones)
+                if (i < minutosAIterar)
                 {
 
                     //Anterior por actual
@@ -212,14 +216,18 @@ namespace TP_5_v2
                     {
                         actual.cantidadEmpanadas = 0;
                     }
+
+                    if (hasta > actual.reloj && desde < actual.reloj)
+                    {
+                        this.agregarDato(actual);
+                    }
                     
-                    this.agregarDato(actual);
 
 
                 }                
 
                 this.dataGridView.DataSource = this.tabla;
-                i++;
+                i = actual.reloj;
             }
         }
 
@@ -606,17 +614,7 @@ namespace TP_5_v2
             actual.empleadoDesignado = "X";
             actual.estadoLocal = "Cerrado";
             actual.tiempoCierre = 1320;
-           // if (anterior.tiempoCierre == 1320)
-            // {
-            //    actual.tiempoCierre = 0;
-            //    inicio.reloj = 480;
-             //   inicio.dia += 1;
-             //   inicio.tiempoCierre = 840;
-             //   inicio.tiempoApertura = 960;
-             //   inicio.tiempoLibreE1 = 480;
-             //   inicio.tiempoLibreE2 = 480;
-              //  inicio.tiempoLibreE3 = 480;
-           // } 
+         
             
 
         }
