@@ -283,7 +283,7 @@ namespace TP_5_v2
 
         }
 
-        public void proximoEvento()
+        public void proximoEvento(int controlTurno)
         {
             string proxEvento;
             double relojMinimo;
@@ -340,11 +340,13 @@ namespace TP_5_v2
                     relojMinimo = this.proximaFinEntregaPedido;
                     proxEvento = "fin_EntregaDelivery";
                 }
-                if (relojMinimo > this.tiempoCierre && this.tiempoCierre != 0)
+                if (relojMinimo > this.tiempoCierre && this.tiempoCierre != 0 && controlTurno != 2)
                 {
                     relojMinimo = this.tiempoCierre;
                     proxEvento = "Fin del turno";
                 }
+
+                
                 
             this.reloj = relojMinimo;
             this.evento = proxEvento;
