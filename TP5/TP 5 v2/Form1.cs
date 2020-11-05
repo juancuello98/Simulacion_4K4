@@ -22,6 +22,8 @@ namespace TP_5_v2
         double desde;
         double hasta;
         int controlTurno = 1;
+        Boolean esOtroDia = false;
+
 
 
 
@@ -34,6 +36,8 @@ namespace TP_5_v2
         {
             desde = double.Parse(this.txtMinDesde.Text.Trim()); // esto tambien tienen que ser cantidad de eventos, ej mostrar del evento 0 al 5000
             hasta = double.Parse(this.txtMinHasta.Text.Trim());
+
+
           
             int cantIteraciones = int.Parse(this.txtMinSimulacion.Text.Trim());
 
@@ -127,7 +131,7 @@ namespace TP_5_v2
             tabla.Columns.Add("Proximo Cierre");
             tabla.Columns.Add("Inicio turno");
 
-            inicio = new Fila(1,1, 0, "Inicializacion", 960, mediaLlegadaPedido, 0.53, "-", 0,"Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 960, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 960, "Libre", new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito, "Abierto", 1320, 1.439,preparacionEmpanadas,preparacionLomito,preparacionHamburguesa);
+            inicio = new Fila(1,1, 0, "Inicializacion", 960, mediaLlegadaPedido, 0.53, "-", 0,"Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito, "Abierto", 1320, 480,preparacionEmpanadas,preparacionLomito,preparacionHamburguesa);
             //Inicializamos las filas
             actual = new Fila(1, 1, 0, "Inicializacion", 480, mediaLlegadaPedido, 0.53, "-", 0, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito, "Abierto", 840, 960, preparacionEmpanadas, preparacionLomito, preparacionHamburguesa);
 
@@ -144,7 +148,7 @@ namespace TP_5_v2
                 }
 
                 anterior = (Fila)actual.Clone();
-                actual.proximoEvento(controlTurno ); // aca se setea el reloj en actual y el evento
+                actual.proximoEvento(controlTurno); // aca se setea el reloj en actual y el evento
 
                 //i = this.actual.reloj;
 
@@ -233,7 +237,7 @@ namespace TP_5_v2
             this.dataGridView.DataSource = this.tabla;
         }
 
-        
+
 
 
         public void llegadaPedido()
@@ -435,7 +439,7 @@ namespace TP_5_v2
             TimeSpan tiempoLlegadaPedido = TimeSpan.FromMinutes(fila.tiempoLlegadaPedido);
             TimeSpan proximaLlegadaPedido = TimeSpan.FromMinutes(fila.proximaLlegadaPedidoo);
 
-            Console.WriteLine(fila.proximaFinPreparacionPedidoE1);
+            Console.WriteLine("Prox. Fin Prep 1: "+fila.proximaFinPreparacionPedidoE1);
 
             TimeSpan tiempoPreparacionPedidoE1 = TimeSpan.FromMinutes(fila.tiempoPreparacionPedidoE1);
             TimeSpan proximoPreparacionPedidoE1 = TimeSpan.FromMinutes(fila.proximaFinPreparacionPedidoE1);
@@ -543,7 +547,7 @@ namespace TP_5_v2
 
             this.txtMinDesde.Text = "0";
             this.txtMinHasta.Text = "60";
-            this.txtDuracionTurno.Text = "6"; //En horas.
+            
             this.txtMinSimulacion.Text = "500"; //Son minutos
 
 
@@ -629,6 +633,10 @@ namespace TP_5_v2
                 controlTurno++;
                 //Seteo las condiciones de inicio del proximo inicio de turno de la tarde
 
+                inicio.reloj = actual.tiempoApertura;
+                inicio.tiempoCierre = actual.tiempoCierre;
+                inicio.tiempoApertura = 960;
+
             }
             else if (controlTurno == 2)
             {
@@ -640,7 +648,15 @@ namespace TP_5_v2
                 actual.rndTipoPedido = 0;
                 actual.empleadoDesignado = "X";
                 actual.estadoLocal = "Cerrado";
+                actual.tiempoApertura = 480;
+
                 //Seteo las condiciones de inicio del proximo inicio de turno del otro dia
+
+                inicio.reloj = 480;
+                inicio.tiempoCierre = 840;
+                controlTurno++;
+                esOtroDia = true;
+               
 
             }
 
@@ -651,15 +667,26 @@ namespace TP_5_v2
 
         public void inicioTurno()
         {
-            if (anterior.reloj >= 1320)
+            
+
+            if (esOtroDia)
             {
-                inicio.reloj = 480;
+                //inicio.reloj = 480;
                 inicio.dia += 1;
+                inicio.tiempoApertura = 960;
+                //inicio.tiempoCierre = 840;   
+                controlTurno = 1;
+                esOtroDia = false;
             }
-            controlTurno = 1;
+            
+
+
+         
+
+            anterior = (Fila)actual.Clone();
             actual = (Fila)inicio.Clone();
             actual.proximaLlegadaPedido();
-            anterior = (Fila)actual.Clone();
+            
         }
 
         public int generarCantEmpanadas()
@@ -683,5 +710,9 @@ namespace TP_5_v2
             return n;
         }
 
+
+       
+
+        
     }
 }

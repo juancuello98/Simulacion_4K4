@@ -68,8 +68,6 @@
             this.Pizza = new System.Windows.Forms.Label();
             this.TxtCostoPizza = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.txtDuracionTurno = new System.Windows.Forms.TextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.label21 = new System.Windows.Forms.Label();
             this.txtPrepEmpanadas = new System.Windows.Forms.TextBox();
@@ -111,7 +109,11 @@
             this.label26 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.lblTiempoLibre = new System.Windows.Forms.Label();
-            this.btnCargarTanda = new System.Windows.Forms.Button();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -127,6 +129,9 @@
             this.Grilla.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
@@ -177,7 +182,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(722, 157);
+            this.label13.Location = new System.Drawing.Point(722, 143);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(90, 13);
             this.label13.TabIndex = 30;
@@ -185,7 +190,7 @@
             // 
             // txtMinSimulacion
             // 
-            this.txtMinSimulacion.Location = new System.Drawing.Point(821, 157);
+            this.txtMinSimulacion.Location = new System.Drawing.Point(821, 140);
             this.txtMinSimulacion.Name = "txtMinSimulacion";
             this.txtMinSimulacion.Size = new System.Drawing.Size(67, 20);
             this.txtMinSimulacion.TabIndex = 29;
@@ -194,7 +199,8 @@
             // 
             this.btnSimular.BackColor = System.Drawing.Color.MediumSpringGreen;
             this.btnSimular.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSimular.Location = new System.Drawing.Point(695, 225);
+            this.btnSimular.ForeColor = System.Drawing.Color.Black;
+            this.btnSimular.Location = new System.Drawing.Point(695, 207);
             this.btnSimular.Name = "btnSimular";
             this.btnSimular.Size = new System.Drawing.Size(214, 36);
             this.btnSimular.TabIndex = 31;
@@ -500,22 +506,6 @@
             this.label17.TabIndex = 35;
             this.label17.Text = "Parametros de la Simulacion";
             // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(701, 127);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(117, 13);
-            this.label18.TabIndex = 37;
-            this.label18.Text = "Duracion del turno (hs) ";
-            // 
-            // txtDuracionTurno
-            // 
-            this.txtDuracionTurno.Location = new System.Drawing.Point(821, 124);
-            this.txtDuracionTurno.Name = "txtDuracionTurno";
-            this.txtDuracionTurno.Size = new System.Drawing.Size(67, 20);
-            this.txtDuracionTurno.TabIndex = 36;
-            // 
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.label21);
@@ -673,7 +663,7 @@
             // 
             // btnCargarEjemplo
             // 
-            this.btnCargarEjemplo.Location = new System.Drawing.Point(695, 192);
+            this.btnCargarEjemplo.Location = new System.Drawing.Point(695, 176);
             this.btnCargarEjemplo.Name = "btnCargarEjemplo";
             this.btnCargarEjemplo.Size = new System.Drawing.Size(214, 27);
             this.btnCargarEjemplo.TabIndex = 43;
@@ -685,10 +675,11 @@
             // 
             this.tabControl1.Controls.Add(this.Grilla);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Location = new System.Drawing.Point(17, 267);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1309, 440);
+            this.tabControl1.Size = new System.Drawing.Size(1350, 440);
             this.tabControl1.TabIndex = 44;
             // 
             // Grilla
@@ -697,7 +688,7 @@
             this.Grilla.Location = new System.Drawing.Point(4, 22);
             this.Grilla.Name = "Grilla";
             this.Grilla.Padding = new System.Windows.Forms.Padding(3);
-            this.Grilla.Size = new System.Drawing.Size(1301, 414);
+            this.Grilla.Size = new System.Drawing.Size(1342, 414);
             this.Grilla.TabIndex = 0;
             this.Grilla.Text = "Grilla";
             this.Grilla.UseVisualStyleBackColor = true;
@@ -894,24 +885,61 @@
             this.lblTiempoLibre.TabIndex = 0;
             this.lblTiempoLibre.Text = "Tiempo promedio libre de los empleados de coccion";
             // 
-            // btnCargarTanda
+            // tabPage1
             // 
-            this.btnCargarTanda.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnCargarTanda.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCargarTanda.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnCargarTanda.Location = new System.Drawing.Point(1328, 289);
-            this.btnCargarTanda.Name = "btnCargarTanda";
-            this.btnCargarTanda.Size = new System.Drawing.Size(39, 29);
-            this.btnCargarTanda.TabIndex = 45;
-            this.btnCargarTanda.Text = ">";
-            this.btnCargarTanda.UseVisualStyleBackColor = false;
+            this.tabPage1.Controls.Add(this.label35);
+            this.tabPage1.Controls.Add(this.label18);
+            this.tabPage1.Controls.Add(this.dataGridView2);
+            this.tabPage1.Controls.Add(this.dataGridView1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1342, 414);
+            this.tabPage1.TabIndex = 2;
+            this.tabPage1.Text = "Grilla Euler";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(110, 65);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(815, 326);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Location = new System.Drawing.Point(994, 65);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(240, 326);
+            this.dataGridView2.TabIndex = 1;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(107, 32);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(281, 18);
+            this.label18.TabIndex = 2;
+            this.label18.Text = "Metodo de Euler para tiempo preparacion";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label35.Location = new System.Drawing.Point(992, 35);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(192, 18);
+            this.label35.TabIndex = 3;
+            this.label35.Text = "Valores obtenidos por pizza";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1379, 709);
-            this.Controls.Add(this.btnCargarTanda);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnCargarEjemplo);
             this.Controls.Add(this.label24);
@@ -922,8 +950,6 @@
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox7);
-            this.Controls.Add(this.label18);
-            this.Controls.Add(this.txtDuracionTurno);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label13);
@@ -962,6 +988,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1009,8 +1039,6 @@
         private System.Windows.Forms.Label Pizza;
         private System.Windows.Forms.TextBox TxtCostoPizza;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox txtDuracionTurno;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox txtPrepEmpanadas;
@@ -1052,7 +1080,11 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button btnCargarTanda;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 

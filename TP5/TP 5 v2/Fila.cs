@@ -305,6 +305,7 @@ namespace TP_5_v2
                             relojMinimo = this.proximaFinPreparacionPedidoE3;
                             proxEvento = "fin_PreparacionPedido E3";
                        }
+
                        else
                        {
                             proxEvento = "Inicio de turno";
@@ -340,7 +341,7 @@ namespace TP_5_v2
                     relojMinimo = this.proximaFinEntregaPedido;
                     proxEvento = "fin_EntregaDelivery";
                 }
-                if (relojMinimo > this.tiempoCierre && this.tiempoCierre != 0 && controlTurno != 2)
+                if (relojMinimo > this.tiempoCierre && this.tiempoCierre != 0 && controlTurno < 3)
                 {
                     relojMinimo = this.tiempoCierre;
                     proxEvento = "Fin del turno";
