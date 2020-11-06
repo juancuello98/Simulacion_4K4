@@ -31,6 +31,14 @@ namespace TP_5_v2
         // Asignacion del empleado
         public string empleadoDesignado;
 
+        //Cancelacion 
+        public Queue<PedidoCancelado> ColaPedidosAcancelar;
+        public double proximoCancelacionPedido;
+        public Queue<Pedido> colaCancelados;
+        public Queue<Pedido> colaCanceladosTerminados;
+
+        
+
 
         //Evento Preparacion Pedido
         //Empleado 1
@@ -84,7 +92,7 @@ namespace TP_5_v2
         //sandwich
         public int mediaPrepSandwichNormal ;
         public int desvPrepSandwichNormal;
-        //FALTA LO DE LAS EMPANADAS , LOMITOS Y HAMBURGUESAS
+       
         //empanadas
         public double preparacionEmpanadas;
 
@@ -107,7 +115,7 @@ namespace TP_5_v2
 
         
 
-        public Fila(int dia,int proximoNumeroPedido, int numeroPedido, string evento, double reloj, int mediaLlegadaPedido, double rndTipoPedido, string empleadoDesignado, int cantidadEmpanadas,string estadoEmpleado1, double numeroPedidoEnPreparacion, string tipoPedidoEnPreparacion, double rndPreparacionPedidoE1, double tiempoPreparacionPedidoE1, double proximaFinPreparacionPedidoE1, Queue<Pedido> colaEmpleado1, double tiempoLibreE1, string estadoEmpleado2, double numeroPedidoEnPreparacionE2, string tipoPedidoEnPreparacionE2, double rndPreparacionPedidoE2, double tiempoPreparacionPedidoE2, double proximaFinPreparacionPedidoE2, Queue<Pedido> colaEmpleado2, double tiempoLibreE2, string estadoEmpleado3, double numeroPedidoEnPreparacionE3, string tipoPedidoEnPreparacionE3, double rndPreparacionPedidoE3, double tiempoPreparacionPedidoE3, double proximaFinPreparacionPedidoE3, Queue<Pedido> colaEmpleado3, double tiempoLibreE3, string estadoDelivery, Queue<Pedido> colaDelivery, Queue<Pedido> mochilaDelivery, double rndEntregaPedido, double tiempoEntregaPedido, double proximaFinEntregaPedido, int limiteA_Prep_Pizza, int limiteB_Prep_Pizza, int mediaPrepSandwichNormal, int desvPrepSandwichNormal, int mediaTiempoEntrega, double costo_pizza, double costo_sandwich, double costo_empanadas, double costo_hamburguesa, double costo_lomito, string estadoLocal, double tiempoCierre, double tiempoApertura, double preparacionEmpanadas, double preparacionLomito, double preparacionHamburguesa)
+        public Fila(int dia,int proximoNumeroPedido, int numeroPedido, string evento, double reloj, int mediaLlegadaPedido, double rndTipoPedido, string empleadoDesignado, int cantidadEmpanadas,string estadoEmpleado1, double numeroPedidoEnPreparacion, string tipoPedidoEnPreparacion, double rndPreparacionPedidoE1, double tiempoPreparacionPedidoE1, double proximaFinPreparacionPedidoE1, Queue<Pedido> colaEmpleado1, double tiempoLibreE1, string estadoEmpleado2, double numeroPedidoEnPreparacionE2, string tipoPedidoEnPreparacionE2, double rndPreparacionPedidoE2, double tiempoPreparacionPedidoE2, double proximaFinPreparacionPedidoE2, Queue<Pedido> colaEmpleado2, double tiempoLibreE2, string estadoEmpleado3, double numeroPedidoEnPreparacionE3, string tipoPedidoEnPreparacionE3, double rndPreparacionPedidoE3, double tiempoPreparacionPedidoE3, double proximaFinPreparacionPedidoE3, Queue<Pedido> colaEmpleado3, double tiempoLibreE3, string estadoDelivery, Queue<Pedido> colaDelivery, Queue<Pedido> mochilaDelivery, double rndEntregaPedido, double tiempoEntregaPedido, double proximaFinEntregaPedido, int limiteA_Prep_Pizza, int limiteB_Prep_Pizza, int mediaPrepSandwichNormal, int desvPrepSandwichNormal, int mediaTiempoEntrega, double costo_pizza, double costo_sandwich, double costo_empanadas, double costo_hamburguesa, double costo_lomito, string estadoLocal, double tiempoCierre, double tiempoApertura, double preparacionEmpanadas, double preparacionLomito, double preparacionHamburguesa, Queue<PedidoCancelado> colaPedidosAcancelar, double proximoCancelacionPedido, Queue<Pedido> colaCancelados, Queue<Pedido> colaCanceladosTerminados)
         {
             this.proximoNumeroPedido = proximoNumeroPedido;
             this.numeroPedido = numeroPedido;
@@ -173,6 +181,12 @@ namespace TP_5_v2
             this.preparacionLomito = preparacionLomito;
             this.preparacionHamburguesa = preparacionHamburguesa;
             this.preparacionEmpanadas = preparacionEmpanadas;
+
+            //Cancelacion
+            this.ColaPedidosAcancelar = colaPedidosAcancelar;
+            this.proximoCancelacionPedido = proximoCancelacionPedido;
+            this.colaCancelados = colaCancelados;
+            this.colaCanceladosTerminados = colaCanceladosTerminados;
         }
 
         public void proximaLlegadaPedido()
@@ -307,6 +321,11 @@ namespace TP_5_v2
                             relojMinimo = this.proximaFinPreparacionPedidoE3;
                             proxEvento = "fin_PreparacionPedido E3";
                        }
+                       else if (proximoCancelacionPedido != 0)
+                       {
+                            relojMinimo = this.proximoCancelacionPedido;
+                            proxEvento = "Cancelacion_Pedido";
+                       }
                        else if (proximaFinEntregaPedido != 0)
                        {
                             relojMinimo = this.proximaFinEntregaPedido;
@@ -341,7 +360,12 @@ namespace TP_5_v2
                     relojMinimo = this.proximaFinPreparacionPedidoE3;
                     proxEvento = "fin_PreparacionPedido E3";
                 }
-          
+                
+                if (relojMinimo > this.proximoCancelacionPedido && this.proximoCancelacionPedido != 0)
+                {
+                    relojMinimo = this.proximoCancelacionPedido;
+                    proxEvento = "Cancelacion_Pedido";
+                }
                 if (relojMinimo > this.proximaFinEntregaPedido && this.proximaFinEntregaPedido != 0)
                 {
                     relojMinimo = this.proximaFinEntregaPedido;

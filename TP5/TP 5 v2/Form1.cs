@@ -27,7 +27,6 @@ namespace TP_5_v2
 
 
 
-
         public Form1()
         {
             InitializeComponent();
@@ -118,7 +117,15 @@ namespace TP_5_v2
             tabla.Columns.Add("Proximo Fin Prep 3");
             tabla.Columns.Add("Cola Emp 3");
             tabla.Columns.Add("Tiempo Libre E3");
+
+
+            //Cancelacion del pedido
+            tabla.Columns.Add("Cola proximos por cancelar");
+            tabla.Columns.Add("Proxima cancelacion");
             //tabla.Columns.Add("Ultimo pedido terminado E3");
+            tabla.Columns.Add("Cancelados");
+            // Pendientes que fueron cancelados y estaban preparandose
+            tabla.Columns.Add("Cancelados pero terminados");
 
             //Delivery
             tabla.Columns.Add("Estado Delivery");
@@ -127,6 +134,7 @@ namespace TP_5_v2
             tabla.Columns.Add("RND Delivery");
             tabla.Columns.Add("Tiempo Entrega");
             tabla.Columns.Add("Fin Entrega");
+            tabla.Columns.Add("Pedidos en Entrega");
             //tabla.Columns.Add("Ultimo pedido entregado");
 
             //Local
@@ -134,9 +142,9 @@ namespace TP_5_v2
             tabla.Columns.Add("Proximo Cierre");
             tabla.Columns.Add("Inicio turno");
 
-            inicio = new Fila(1,1, 0, "Inicializacion", 960, mediaLlegadaPedido, 0.53, "-", 0,"Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", new Queue<Pedido>(), new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito, "Abierto", 1320, 480,preparacionEmpanadas,preparacionLomito,preparacionHamburguesa);
+            inicio = new Fila(1,1, 0, "Inicializacion", 960, mediaLlegadaPedido, 0.53, "-", 0,"Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", new Queue<Pedido>(), new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito, "Abierto", 1320, 480,preparacionEmpanadas,preparacionLomito,preparacionHamburguesa,new Queue<PedidoCancelado>(),0, new Queue<Pedido>(), new Queue<Pedido>());
             //Inicializamos las filas
-            actual = new Fila(1, 1, 0, "Inicializacion", 480, mediaLlegadaPedido, 0.53, "-", 0, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", new Queue<Pedido>(), new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito, "Abierto", 840, 960, preparacionEmpanadas, preparacionLomito, preparacionHamburguesa);
+            actual = new Fila(1, 1, 0, "Inicializacion", 480, mediaLlegadaPedido, 0.53, "-", 0, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", new Queue<Pedido>(), new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito, "Abierto", 840, 960, preparacionEmpanadas, preparacionLomito, preparacionHamburguesa, new Queue<PedidoCancelado>(), 0, new Queue<Pedido>(), new Queue<Pedido>());
 
             
 
@@ -153,14 +161,12 @@ namespace TP_5_v2
                 anterior = (Fila)actual.Clone();
                 actual.proximoEvento(controlTurno); // aca se setea el reloj en actual y el evento
 
-                //i = this.actual.reloj;
+              
 
 
                 if (i < minutosAIterar)
                 {
 
-                    //Anterior por actual
-                    //anterior = (Fila)actual.Clone();
                     //Cambios segun evento
                     switch (actual.evento)
                     {
@@ -177,6 +183,9 @@ namespace TP_5_v2
 
                         case "fin_PreparacionPedido E3":
                             this.FinPreparacionPedido(3);
+                            break;
+                        case "Cancelacion_Pedido":
+                            this.CancelacionDePedido();
                             break;
                         case "Fin del turno":
                             this.finTurno();
@@ -265,6 +274,14 @@ namespace TP_5_v2
             //Creo el objeto actual
             Pedido pedidoActual = new Pedido(this.actual.numeroPedido, this.actual.tipoPedidoPedido);
 
+            //Agrega el pedido a la cola de cancelamiento y setea el tiempo cancelacion del primer elemento de la cola
+
+            double tiempoCancelacion = this.actual.reloj + 60;
+            PedidoCancelado pedidoAcancelar = new PedidoCancelado(this.actual.numeroPedido, this.actual.tipoPedidoPedido, tiempoCancelacion, this.actual.empleadoDesignado);
+            this.actual.ColaPedidosAcancelar.Enqueue(pedidoAcancelar);
+
+            this.setearProximaCancelacion();
+
             //Calculo los tiempos de preparacion de los pedidos y si estan ocupado el servidor designado va a la cola
 
             switch (actual.empleadoDesignado)
@@ -346,29 +363,29 @@ namespace TP_5_v2
 
         public void FinPreparacionPedido(int i)
         {
-           
+            
             this.actual.rndLlegadaPedido = 0;
             this.actual.tiempoLlegadaPedido = 0;
             this.actual.empleadoDesignado = "X";
             this.actual.rndTipoPedido = 0;
             this.actual.tipoPedidoPedido = "X";
+
+
+            Pedido pedidoParaEntrega;
             if ( i == 1)
             {
                 this.actual.numeroPedido = (int)this.anterior.numeroPedidoEnPreparacion;
                 this.actual.proximoNumeroPedido = this.anterior.proximoNumeroPedido;
+
+                //lo busco y lo elimino de la cola de cancelacion
+                buscarEnColaPorIdyEliminar(this.actual.numeroPedido);
+                setearProximaCancelacion();
+
                 // Tomo los datos del pedido que pasa a cola del delivery
 
-                Pedido pedidoParaEntrega = new Pedido(this.actual.numeroPedido, this.anterior.tipoPedidoEnPreparacion);
+                pedidoParaEntrega = new Pedido(this.actual.numeroPedido, this.anterior.tipoPedidoEnPreparacion);
 
-                //pregunto si el delivery tiene lugar en la mochila va a la mochila, si no, a la cola de pre entrega
-                if (anterior.MochilaDelivery.Count() < 3)
-                {
-                    actual.MochilaDelivery.Enqueue(pedidoParaEntrega);
-                }
-                else
-                {
-                    actual.ColaDelivery.Enqueue(pedidoParaEntrega);
-                }
+                
 
                 if ( anterior.ColaEmpleado1.Count() > 0)
                 {
@@ -398,20 +415,14 @@ namespace TP_5_v2
             {
                 this.actual.numeroPedido = (int)this.anterior.numeroPedidoEnPreparacionE2;
                 this.actual.proximoNumeroPedido = this.anterior.proximoNumeroPedido;
+
+                buscarEnColaPorIdyEliminar(this.actual.numeroPedido);
+                setearProximaCancelacion();
+
                 // Tomo los datos del pedido que pasa a cola del delivery
 
-                Pedido pedidoParaEntrega = new Pedido(this.actual.numeroPedido, this.anterior.tipoPedidoEnPreparacionE2);
+                pedidoParaEntrega = new Pedido(this.actual.numeroPedido, this.anterior.tipoPedidoEnPreparacionE2);
 
-                //pregunto si el delivery tiene lugar en la mochila va a la mochila, si no, a la cola de pre entrega
-                if (anterior.MochilaDelivery.Count() < 3)
-                {
-                    actual.MochilaDelivery.Enqueue(pedidoParaEntrega);
-                }
-                else
-                {
-                    actual.ColaDelivery.Enqueue(pedidoParaEntrega);
-                }
-                
 
                 if (anterior.ColaEmpleado2.Count() > 0)
                 {
@@ -440,18 +451,14 @@ namespace TP_5_v2
                 this.actual.numeroPedido = (int)this.anterior.numeroPedidoEnPreparacionE3;
                 this.actual.proximoNumeroPedido = this.anterior.proximoNumeroPedido;
 
+                buscarEnColaPorIdyEliminar(this.actual.numeroPedido);
+                setearProximaCancelacion();
+
                 // Tomo los datos del pedido que pasa a cola del delivery
-                Pedido pedidoParaEntrega = new Pedido(this.actual.numeroPedido, this.anterior.tipoPedidoEnPreparacionE3);
+                pedidoParaEntrega = new Pedido(this.actual.numeroPedido, this.anterior.tipoPedidoEnPreparacionE3);
 
                 //pregunto si el delivery tiene lugar en la mochila va a la mochila, si no, a la cola de pre entrega
-                if (anterior.MochilaDelivery.Count() < 3)
-                {
-                    actual.MochilaDelivery.Enqueue(pedidoParaEntrega);
-                }
-                else
-                {
-                    actual.ColaDelivery.Enqueue(pedidoParaEntrega);
-                }
+               
 
                 if (anterior.ColaEmpleado3.Count() > 0)
                 {
@@ -479,28 +486,58 @@ namespace TP_5_v2
             // Si esta ocupado con mas de 3 pedidos en mochila, se va a la cola de listo para entrega, si no, va a la mochila y genera
             // un random y un tiempo de entrega, cuando llega un pedido para entregar y hay lugar en la mochila no se genera un nuevo tiempo
             // de entrega.
+            
 
-            if (anterior.estadoDelivery == "Libre" || anterior.estadoDelivery == "En espera" ) // si estaba libre o en espera 
+            if (estaEnPedidosCancelados(this.actual.numeroPedido))
             {
-                if( actual.MochilaDelivery.Count() == 3)
+                actual.colaCanceladosTerminados.Enqueue(pedidoParaEntrega);
+            }
+            else
+            {
+                if (anterior.estadoDelivery == "Libre" || anterior.estadoDelivery == "En espera") // si estaba libre o en espera 
                 {
-                    this.actual.estadoDelivery = "Ocupado"; // cambia su estado a ocupado cuando se llena su mochila es decir que salio a repartir y genera los tiempos
-                    this.actual.rndEntregaPedido = Math.Truncate(rnd.NextDouble() * 100) / 100; // se genera un numero aleatorio
-                    double tiempoPreparacion = this.actual.GenerartiempoEntrega(this.actual.rndEntregaPedido); // se genera el tiempo entre entregas
-                    this.actual.tiempoEntregaPedido = tiempoPreparacion;
-                    this.actual.proximaFinEntregaPedido = this.actual.reloj + this.actual.tiempoEntregaPedido; // se setea el proximo fin entrega
-                    pedidosEntregando = "";
-                    foreach (Pedido pedidoEnMochila in actual.MochilaDelivery)  // se setean los pedidos que se estan entregando
+                    if (anterior.MochilaDelivery.Count() == 2)
                     {
-                        pedidosEntregando += pedidoEnMochila.id + "_";
-                    }
-                    
-                }
-               
-                //this.actual.numeroPedidoEnPreparacion = pedidoActual.id;
-                //this.actual.tipoPedidoEnPreparacion = pedidoActual.tipoPedido;
+                        actual.MochilaDelivery.Enqueue(pedidoParaEntrega);
+                        this.actual.estadoDelivery = "Ocupado"; // cambia su estado a ocupado cuando se llena su mochila es decir que salio a repartir y genera los tiempos
+                        this.actual.rndEntregaPedido = Math.Truncate(rnd.NextDouble() * 100) / 100; // se genera un numero aleatorio
+                        double tiempoPreparacion = this.actual.GenerartiempoEntrega(this.actual.rndEntregaPedido); // se genera el tiempo entre entregas
+                        this.actual.tiempoEntregaPedido = tiempoPreparacion;
+                        this.actual.proximaFinEntregaPedido = this.actual.reloj + this.actual.tiempoEntregaPedido; // se setea el proximo fin entrega
+                        pedidosEntregando = "";
+                        foreach (Pedido pedidoEnMochila in actual.MochilaDelivery)  // se setean los pedidos que se estan entregando
+                        {
+                            pedidosEntregando += pedidoEnMochila.id + "_";
+                        }
+                        actual.MochilaDelivery.Clear();
 
-             
+
+                    }
+                    else
+                    {
+                        actual.MochilaDelivery.Enqueue(pedidoParaEntrega);
+                        actual.rndEntregaPedido = 0;
+                        actual.tiempoEntregaPedido = 0;
+                    }
+
+
+
+
+                }
+                else if (anterior.estadoDelivery == "Ocupado")
+                {
+                    if (anterior.MochilaDelivery.Count() < 3)
+                    {
+                        actual.MochilaDelivery.Enqueue(pedidoParaEntrega);
+                    }
+                    else
+                    {
+                        actual.ColaDelivery.Enqueue(pedidoParaEntrega);
+                    }
+                    actual.rndEntregaPedido = 0;
+                    actual.tiempoEntregaPedido = 0;
+
+                }
 
             }
 
@@ -536,6 +573,7 @@ namespace TP_5_v2
             TimeSpan proximoEntregaPedido = TimeSpan.FromMinutes(fila.proximaFinEntregaPedido);
             TimeSpan tiempoEntregaPedido = TimeSpan.FromMinutes(fila.tiempoEntregaPedido);
             TimeSpan minutosIniciales = TimeSpan.FromMinutes(480);
+            TimeSpan proximaCancelacionPedido = TimeSpan.FromMinutes(fila.proximoCancelacionPedido);
 
             //TimeSpan proximoFinEntrega = TimeSpan.FromMinutes(fila.proximaFinEntregaPedido);
 
@@ -554,8 +592,7 @@ namespace TP_5_v2
             fila.rndTipoPedido == 0 ? "X" : fila.rndTipoPedido.ToString(),
             fila.tipoPedidoPedido,
             fila.cantidadEmpanadas == 0 ? "X" : fila.cantidadEmpanadas.ToString(),
-            fila.empleadoDesignado,
-
+            fila.empleadoDesignado, 
             fila.estadoEmpleado1,
             fila.numeroPedidoEnPreparacion == 0 ? "X" : fila.numeroPedidoEnPreparacion.ToString(),
             fila.tipoPedidoEnPreparacion,
@@ -582,6 +619,13 @@ namespace TP_5_v2
             proximoPreparacionPedidoE3.ToString("hh':'mm':'ss"),
             fila.ColaEmpleado3.Count(),
             tiempoLibreE3.ToString("hh':'mm':'ss"),
+            //Cancelacion pedidos
+            
+            fila.ColaPedidosAcancelar.Count(),
+            proximaCancelacionPedido.ToString("hh':'mm':'ss"),
+            fila.colaCancelados.Count(),
+            fila.colaCanceladosTerminados.Count(),
+
             // Delivery
             fila.estadoDelivery,
             fila.ColaDelivery.Count(),
@@ -589,6 +633,7 @@ namespace TP_5_v2
             fila.rndEntregaPedido == 0 ? "X" : fila.rndEntregaPedido.ToString(),
             fila.tiempoEntregaPedido == 0 ? "X" : tiempoEntregaPedido.ToString("hh':'mm':'ss"),
             proximoEntregaPedido.ToString("hh':'mm':'ss"),
+            pedidosEntregando,
 
             fila.estadoLocal,
             tiempoCierre.ToString("hh':'mm':'ss"),
@@ -800,27 +845,25 @@ namespace TP_5_v2
 
         public void finEntregaPedido()
         {
-            actual.MochilaDelivery.Clear();
-            Pedido pedidoTraspaso;
-            
 
-            if (anterior.ColaDelivery.Count() == 0)
+            Pedido pedidoTraspaso;
+
+
+            if (anterior.estadoDelivery == "Ocupado" && anterior.ColaDelivery.Count() == 0 && anterior.MochilaDelivery.Count() == 0)
             {
                 actual.estadoDelivery = "Libre";
                 actual.rndEntregaPedido = 0;
                 actual.tiempoEntregaPedido = 0;
                 actual.proximaFinEntregaPedido = 0;
             }
-            else if( actual.ColaDelivery.Count() >= 3)
+            else if (anterior.estadoDelivery == "Ocupado" && anterior.MochilaDelivery.Count() < 3)
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    pedidoTraspaso = actual.ColaDelivery.Dequeue();
-                    actual.MochilaDelivery.Enqueue(pedidoTraspaso);
-                }
-            }            
-            
-            if (actual.MochilaDelivery.Count() == 3)
+                actual.estadoDelivery = "En espera";
+                actual.rndEntregaPedido = 0;
+                actual.tiempoEntregaPedido = 0;
+                actual.proximaFinEntregaPedido = 0;
+            }
+            else if (anterior.estadoDelivery == "Ocupado" && anterior.MochilaDelivery.Count() == 3)
             {
                 this.actual.estadoDelivery = "Ocupado"; // cambia su estado a ocupado cuando se llena su mochila es decir que salio a repartir y genera los tiempos
                 this.actual.rndEntregaPedido = Math.Truncate(rnd.NextDouble() * 100) / 100; // se genera un numero aleatorio
@@ -832,20 +875,178 @@ namespace TP_5_v2
                 {
                     pedidosEntregando += pedidoEnMochila.id + "_";
                 }
-            }            
-            else
-            {
-                actual.estadoDelivery = "En espera";
-                actual.rndEntregaPedido = 0;
-                actual.tiempoEntregaPedido = 0;
-                actual.proximaFinEntregaPedido = 0;
+                actual.MochilaDelivery.Clear();
+                if (anterior.ColaDelivery.Count() != 0)
+                {
+                    for (int i = anterior.ColaDelivery.Count(); i > 0; i--)
+                    {
+                        pedidoTraspaso = anterior.ColaDelivery.Dequeue();
+                        actual.MochilaDelivery.Enqueue(pedidoTraspaso);
+                    }
+                }
             }
+
+
+        }   
+
+        public void setearProximaCancelacion()
+        {
+            PedidoCancelado proximoPedido;
+            proximoPedido = this.actual.ColaPedidosAcancelar.Peek();
+            this.actual.proximoCancelacionPedido = proximoPedido.proximoTiempoCancelacion;
         }
 
+        public void buscarEnColaPorIdyEliminar(int numeroPedido)
+        {
+          Queue<PedidoCancelado> nuevaCola = new Queue<PedidoCancelado>();
+          foreach (PedidoCancelado pedido in this.anterior.ColaPedidosAcancelar)
+          {
+                if ( pedido.id != numeroPedido)
+                {
+                    nuevaCola.Enqueue(pedido);
+                }
+          }
+          int i = 0;
+          while (i < nuevaCola.Count())
+          {
+                this.actual.ColaPedidosAcancelar.Enqueue(nuevaCola.Dequeue());
+                i++;
+          }
+        }
+        public void CancelacionDePedido()
+        {
+            this.actual.rndLlegadaPedido = 0;
+            this.actual.tiempoLlegadaPedido = 0;
+            this.actual.empleadoDesignado = "X";
+            this.actual.rndTipoPedido = 0;
+            this.actual.tipoPedidoPedido = "X";
+            Pedido pedidoAguardar;
+            PedidoCancelado pedidoCancelado;
+            pedidoCancelado = this.anterior.ColaPedidosAcancelar.Dequeue();
+            this.actual.numeroPedido = pedidoCancelado.id;
+            
+            if (pedidoCancelado.empleadoDesignado == "Empleado 1")
+            {
+                if (this.actual.numeroPedido == this.anterior.numeroPedidoEnPreparacion)
+                {
+                    pedidoAguardar = new Pedido(this.actual.numeroPedido, pedidoCancelado.tipoPedidoCancelado);
+                    this.actual.colaCancelados.Enqueue(pedidoAguardar);
+                }
+            }
+            else if (pedidoCancelado.empleadoDesignado == "Empleado 2")
+            {
+                if (this.actual.numeroPedido == this.anterior.numeroPedidoEnPreparacionE2)
+                {
+                    pedidoAguardar = new Pedido(this.actual.numeroPedido, pedidoCancelado.tipoPedidoCancelado);
+                    this.actual.colaCancelados.Enqueue(pedidoAguardar);
+                }
+            }
+            else if (pedidoCancelado.empleadoDesignado == "Empleado 3")
+            {
+                if (this.actual.numeroPedido == this.anterior.numeroPedidoEnPreparacionE3)
+                {
+                    pedidoAguardar = new Pedido(this.actual.numeroPedido, pedidoCancelado.tipoPedidoCancelado);
+                    this.actual.colaCancelados.Enqueue(pedidoAguardar);
+                }
+            }
+            
+            if (buscarEnColaPreparacionEmpleado(pedidoCancelado.id, pedidoCancelado.tipoPedidoCancelado, pedidoCancelado.empleadoDesignado))
+            {
+                    eliminarDeColaPreparacion(pedidoCancelado.id, pedidoCancelado.tipoPedidoCancelado, pedidoCancelado.empleadoDesignado);
+            }
+            
 
+           
+            
+            
+                        
+        }
 
+        public bool buscarEnColaPreparacionEmpleado(int id, string tipoPedidoCancelado, string empleadoDesignado)
+        {
+            Pedido pedidoBuscado = new Pedido(id, tipoPedidoCancelado);
 
+            if (empleadoDesignado == "Empleado 1")
+            {
+                return anterior.ColaEmpleado1.Contains(pedidoBuscado);
+            }
+            else if (empleadoDesignado == "Empleado 2")
+            {
+                return anterior.ColaEmpleado2.Contains(pedidoBuscado);
+            }
+            else
+            {
+                return anterior.ColaEmpleado3.Contains(pedidoBuscado);
+            }
 
+        }
 
+        public void eliminarDeColaPreparacion(int id, string tipoPedidoCancelado, string empleadoDesignado)
+        {
+            Queue<Pedido> nuevaCola = new Queue<Pedido>();
+            if( empleadoDesignado == "Empleado 1")
+            {
+                foreach (Pedido pedido in this.anterior.ColaEmpleado1)
+                {
+                    if (pedido.id != id)
+                    {
+                        nuevaCola.Enqueue(pedido);
+                    }
+                }
+                int i = 0;
+                while (i < nuevaCola.Count())
+                {
+                    this.actual.ColaEmpleado1.Enqueue(nuevaCola.Dequeue());
+                    i++;
+                }
+            }
+            else if (empleadoDesignado == "Empleado 2")
+            {
+                foreach (Pedido pedido in this.anterior.ColaEmpleado2)
+                {
+                    if (pedido.id != id)
+                    {
+                        nuevaCola.Enqueue(pedido);
+                    }
+                }
+                int i = 0;
+                while (i < nuevaCola.Count())
+                {
+                    this.actual.ColaEmpleado2.Enqueue(nuevaCola.Dequeue());
+                    i++;
+                }
+            }
+            else
+            {
+                foreach (Pedido pedido in this.anterior.ColaEmpleado3)
+                {
+                    if (pedido.id != id)
+                    {
+                        nuevaCola.Enqueue(pedido);
+                    }
+                }
+                int i = 0;
+                while (i < nuevaCola.Count())
+                {
+                    this.actual.ColaEmpleado3.Enqueue(nuevaCola.Dequeue());
+                    i++;
+                }
+            }
+
+        }
+
+        public bool estaEnPedidosCancelados(int numeroPedido)
+        {
+            bool encontrado = false;
+            foreach(Pedido pedido in anterior.colaCancelados)
+            {
+                if ( pedido.id == numeroPedido)
+                {
+                    encontrado = true;
+                }
+            }
+            return encontrado;
+        }
     }
+    
 }
