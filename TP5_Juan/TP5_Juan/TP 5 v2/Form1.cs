@@ -25,6 +25,14 @@ namespace TP_5_v2
         Boolean esOtroDia = false;
         string pedidosEntregando;
         bool estabaSiendoPreparado = false;
+        bool calculoConEuler = false;
+        double contador8a9 = 0;
+        double contador9a10 = 0;
+        double contador10a11 = 0;
+        double contador11a12 = 0;
+        double contador12a13 = 0;
+        double contador13a14 = 0;
+        double contadorDeTodasLosPedidos = 0;
 
 
 
@@ -35,19 +43,22 @@ namespace TP_5_v2
 
         private void btnSimular_Click(object sender, EventArgs e)
         {
+            if(chk_calcularEuler.Checked == true)
+            {
+                calculoConEuler = true;
+            }
+            else
+            {
+                calculoConEuler = false;
+            }
+
             desde = double.Parse(this.txtMinDesde.Text.Trim()); // esto tambien tienen que ser cantidad de eventos, ej mostrar del evento 0 al 5000
             hasta = double.Parse(this.txtMinHasta.Text.Trim());
-
+          
+            int cantIteraciones = int.Parse(this.txtMinSimulacion.Text.Trim());
             controlTurno = 1;
 
-            int cantIteraciones = int.Parse(this.txtMinSimulacion.Text.Trim());
-
-            //Limpiar tabla
-            this.dataGridView.DataSource = null;
-            this.dataGridView.Rows.Clear();
-            this.tabla.Clear();
-            this.tabla.Columns.Clear();
-            this.pedidosEntregando = "";
+           
 
             //Tomamos los datos de los inputs de la preparacion de pedidos
             int mediaLlegadaPedido = int.Parse(this.txtMediaLlegadaPedido.Text.Trim());
@@ -143,6 +154,19 @@ namespace TP_5_v2
             tabla.Columns.Add("Estado Local");
             tabla.Columns.Add("Proximo Cierre");
             tabla.Columns.Add("Inicio turno");
+            //tabla.Columns.Add("Consignas para primer turno");
+            //Acumulacion de los tiempos entre pedidos, y se divide al final por la cantidad de llegada de pedidos para sacar el promedio,
+            //se hace para el primer turno. (para el rango en el que se elija mostrar???
+
+
+            //tabla.Columns.Add("Tiempo entre pedidos");
+            tabla.Columns.Add("Pedidos de 8 a 9");
+            tabla.Columns.Add("Pedidos de 9 a 10");
+            tabla.Columns.Add("Pedidos de 10 a 11");
+            tabla.Columns.Add("Pedidos de 11 a 12");
+            tabla.Columns.Add("Pedidos de 12 a 13");
+            tabla.Columns.Add("Pedidos de 13 a 14");
+            
 
             inicio = new Fila(1,1, 0, "Inicializacion", 960, mediaLlegadaPedido, 0.53, "-", 0,"Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", 0, "-", 0, 0, 0, new Queue<Pedido>(), 480, "Libre", new Queue<Pedido>(), new Queue<Pedido>(), 0, 0, 0, limiteA_Prep_Pizza, limiteB_Prep_Pizza, mediaPrepSandwichNormal, desvPrepSandwichNormal, mediaTiempoEntrega, costo_pizza, costo_sandwich, costo_empanadas, costo_hamburguesa, costo_lomito, "Abierto", 1320, 480,preparacionEmpanadas,preparacionLomito,preparacionHamburguesa,new Queue<PedidoCancelado>(),0, new Queue<Pedido>(), new Queue<Pedido>());
             //Inicializamos las filas
@@ -155,7 +179,7 @@ namespace TP_5_v2
             {
                 if (i == 0) {
                    
-                    actual.proximaLlegadaPedido();
+                    actual.proximaLlegadaPedido(rnd);
                     this.agregarDato(this.actual);
                     anterior = (Fila)actual.Clone();
                 }
@@ -241,6 +265,7 @@ namespace TP_5_v2
 
                     if (hasta > i && desde <= i)
                     {
+                        contarPedidoEnHora(actual.reloj,actual.evento,actual.dia,anterior.dia);
                         this.agregarDato(actual);
                     }
                     
@@ -252,6 +277,10 @@ namespace TP_5_v2
                 i++;
             }
             this.dataGridView.DataSource = this.tabla;
+            this.labelDeCarga.Text = "Simulacion finalizada con exito";
+            this.labelDeCarga.ForeColor = Color.LimeGreen;
+            this.pictureBox1.Visible = true;
+            this.setearResultados();
         }
 
 
@@ -261,7 +290,7 @@ namespace TP_5_v2
         {
             this.actual.numeroPedido = this.actual.proximoNumeroPedido;
             this.actual.proximoNumeroPedido++;
-            this.actual.proximaLlegadaPedido();
+            this.actual.proximaLlegadaPedido(rnd);
             this.actual.rndTipoPedido = Math.Truncate(rnd.NextDouble() * 100) / 100;
             this.actual.generarTipoDePedido(this.actual.rndTipoPedido);
             if (this.actual.tipoPedidoPedido == "Empanadas") 
@@ -304,7 +333,7 @@ namespace TP_5_v2
                         {
                             this.actual.estadoEmpleado1 = "Ocupado";
                             this.actual.rndPreparacionPedidoE1 = Math.Truncate(rnd.NextDouble() * 100) / 100;
-                            double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE1, pedidoActual.tipoPedido);
+                            double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE1, pedidoActual.tipoPedido,calculoConEuler);
                             this.actual.tiempoPreparacionPedidoE1 = tiempoPreparacion;
                             this.actual.proximaFinPreparacionPedidoE1 = this.actual.reloj + this.actual.tiempoPreparacionPedidoE1;
                             this.actual.numeroPedidoEnPreparacion = pedidoActual.id;
@@ -329,7 +358,7 @@ namespace TP_5_v2
                         {
                             this.actual.estadoEmpleado2 = "Ocupado";
                             this.actual.rndPreparacionPedidoE2 = Math.Truncate(rnd.NextDouble() * 100) / 100;
-                            double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE2, this.actual.tipoPedidoPedido);
+                            double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE2, this.actual.tipoPedidoPedido, calculoConEuler);
                             this.actual.tiempoPreparacionPedidoE2 = tiempoPreparacion;
                             this.actual.proximaFinPreparacionPedidoE2 = this.actual.reloj + this.actual.tiempoPreparacionPedidoE2;
                             this.actual.numeroPedidoEnPreparacionE2 = pedidoActual.id;
@@ -350,7 +379,7 @@ namespace TP_5_v2
                         {
                             this.actual.estadoEmpleado3 = "Ocupado";
                             this.actual.rndPreparacionPedidoE3 = Math.Truncate(rnd.NextDouble() * 100) / 100;
-                            double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE3, this.actual.tipoPedidoPedido);
+                            double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE3, this.actual.tipoPedidoPedido, calculoConEuler);
                             this.actual.tiempoPreparacionPedidoE3 = tiempoPreparacion;
                             this.actual.proximaFinPreparacionPedidoE3 = this.actual.reloj + this.actual.tiempoPreparacionPedidoE3;
                             this.actual.numeroPedidoEnPreparacionE3 = pedidoActual.id;
@@ -407,7 +436,7 @@ namespace TP_5_v2
                     this.actual.tipoPedidoEnPreparacion = proximoPedido.tipoPedido;
 
                     this.actual.rndPreparacionPedidoE1 = Math.Truncate(rnd.NextDouble() * 100) / 100;
-                    double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE1, this.actual.tipoPedidoEnPreparacion);
+                    double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE1, this.actual.tipoPedidoEnPreparacion, calculoConEuler);
                     this.actual.tiempoPreparacionPedidoE1 = tiempoPreparacion;
                     this.actual.proximaFinPreparacionPedidoE1 = this.actual.reloj + this.actual.tiempoPreparacionPedidoE1;
                     
@@ -438,7 +467,7 @@ namespace TP_5_v2
                 {
                     actual.estadoEmpleado2 = "Ocupado";
                     this.actual.rndPreparacionPedidoE2 = Math.Truncate(rnd.NextDouble() * 100) / 100;
-                    double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE2, this.actual.tipoPedidoPedido);
+                    double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE2, this.actual.tipoPedidoPedido, calculoConEuler);
                     this.actual.tiempoPreparacionPedidoE2 = tiempoPreparacion;
                     this.actual.proximaFinPreparacionPedidoE2 = this.actual.reloj + this.actual.tiempoPreparacionPedidoE2;
                     Pedido proximoPedido = anterior.ColaEmpleado2.Dequeue();
@@ -472,7 +501,7 @@ namespace TP_5_v2
                 {
                     actual.estadoEmpleado3 = "Ocupado";
                     this.actual.rndPreparacionPedidoE3 = Math.Truncate(rnd.NextDouble() * 100) / 100;
-                    double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE3, this.actual.tipoPedidoPedido);
+                    double tiempoPreparacion = this.actual.GenerartiempoPreparacion(this.actual.rndPreparacionPedidoE3, this.actual.tipoPedidoPedido, calculoConEuler);
                     this.actual.tiempoPreparacionPedidoE3 = tiempoPreparacion;
                     this.actual.proximaFinPreparacionPedidoE3 = this.actual.reloj + this.actual.tiempoPreparacionPedidoE3;
                     Pedido proximoPedido = anterior.ColaEmpleado3.Dequeue();
@@ -563,30 +592,55 @@ namespace TP_5_v2
 
         private void agregarDato(Fila fila)
         {
-            TimeSpan reloj = TimeSpan.FromMinutes(fila.reloj);
-            TimeSpan tiempoCierre = TimeSpan.FromMinutes(fila.tiempoCierre);
-            TimeSpan tiempoInicioTurno = TimeSpan.FromMinutes(fila.tiempoApertura);
+            TimeSpan reloj = TimeSpan.FromMinutes(0);
+            TimeSpan tiempoCierre = TimeSpan.FromMinutes(0);
+            TimeSpan tiempoInicioTurno = TimeSpan.FromMinutes(0);
 
-            TimeSpan tiempoLlegadaPedido = TimeSpan.FromMinutes(fila.tiempoLlegadaPedido);
-            TimeSpan proximaLlegadaPedido = TimeSpan.FromMinutes(fila.proximaLlegadaPedidoo);
+            TimeSpan tiempoLlegadaPedido = TimeSpan.FromMinutes(0);
+            TimeSpan proximaLlegadaPedido = TimeSpan.FromMinutes(0);
 
 
-            TimeSpan tiempoPreparacionPedidoE1 = TimeSpan.FromMinutes(fila.tiempoPreparacionPedidoE1);
-            TimeSpan proximoPreparacionPedidoE1 = TimeSpan.FromMinutes(fila.proximaFinPreparacionPedidoE1);
-            TimeSpan tiempoLibreE1 = TimeSpan.FromMinutes(fila.tiempoLibreE1);
+            TimeSpan tiempoPreparacionPedidoE1 = TimeSpan.FromMinutes(0);
+            TimeSpan proximoPreparacionPedidoE1 = TimeSpan.FromMinutes(0);
+            TimeSpan tiempoLibreE1 = TimeSpan.FromMinutes(0);
 
-            TimeSpan tiempoPreparacionPedidoE2 = TimeSpan.FromMinutes(fila.tiempoPreparacionPedidoE2);
-            TimeSpan proximoPreparacionPedidoE2 = TimeSpan.FromMinutes(fila.proximaFinPreparacionPedidoE2);
-            TimeSpan proximoEntregaPedido = TimeSpan.FromMinutes(fila.proximaFinEntregaPedido);
-            TimeSpan tiempoEntregaPedido = TimeSpan.FromMinutes(fila.tiempoEntregaPedido);
-            TimeSpan tiempoLibreE2 = TimeSpan.FromMinutes(fila.tiempoLibreE2);
+            TimeSpan tiempoPreparacionPedidoE2 = TimeSpan.FromMinutes(0);
+            TimeSpan proximoPreparacionPedidoE2 = TimeSpan.FromMinutes(0);
+            TimeSpan tiempoLibreE2 = TimeSpan.FromMinutes(0);
 
-            TimeSpan tiempoPreparacionPedidoE3 = TimeSpan.FromMinutes(fila.tiempoPreparacionPedidoE3);
-            TimeSpan proximoPreparacionPedidoE3 = TimeSpan.FromMinutes(fila.proximaFinPreparacionPedidoE3);
-            TimeSpan tiempoLibreE3 = TimeSpan.FromMinutes(fila.tiempoLibreE3);
+            TimeSpan tiempoPreparacionPedidoE3 = TimeSpan.FromMinutes(0);
+            TimeSpan proximoPreparacionPedidoE3 = TimeSpan.FromMinutes(0);
+            TimeSpan tiempoLibreE3 = TimeSpan.FromMinutes(0);
 
-            TimeSpan minutosIniciales = TimeSpan.FromMinutes(480);
-            TimeSpan proximaCancelacionPedido = TimeSpan.FromMinutes(fila.proximoCancelacionPedido);
+            TimeSpan proximoEntregaPedido = TimeSpan.FromMinutes(0);
+            TimeSpan tiempoEntregaPedido = TimeSpan.FromMinutes(0);
+            TimeSpan minutosIniciales = TimeSpan.FromMinutes(0);
+            TimeSpan proximaCancelacionPedido = TimeSpan.FromMinutes(0);
+
+            reloj = TimeSpan.FromMinutes(fila.reloj);
+            tiempoCierre = TimeSpan.FromMinutes(fila.tiempoCierre);
+            tiempoInicioTurno = TimeSpan.FromMinutes(fila.tiempoApertura);
+
+            tiempoLlegadaPedido = TimeSpan.FromMinutes(fila.tiempoLlegadaPedido);
+            proximaLlegadaPedido = TimeSpan.FromMinutes(fila.proximaLlegadaPedidoo);
+
+
+            tiempoPreparacionPedidoE1 = TimeSpan.FromMinutes(fila.tiempoPreparacionPedidoE1);
+            proximoPreparacionPedidoE1 = TimeSpan.FromMinutes(fila.proximaFinPreparacionPedidoE1);
+            tiempoLibreE1 = TimeSpan.FromMinutes(fila.tiempoLibreE1);
+
+            tiempoPreparacionPedidoE2 = TimeSpan.FromMinutes(fila.tiempoPreparacionPedidoE2);
+            proximoPreparacionPedidoE2 = TimeSpan.FromMinutes(fila.proximaFinPreparacionPedidoE2);
+            tiempoLibreE2 = TimeSpan.FromMinutes(fila.tiempoLibreE2);
+
+            tiempoPreparacionPedidoE3 = TimeSpan.FromMinutes(fila.tiempoPreparacionPedidoE3);
+            proximoPreparacionPedidoE3 = TimeSpan.FromMinutes(fila.proximaFinPreparacionPedidoE3);
+            tiempoLibreE3 = TimeSpan.FromMinutes(fila.tiempoLibreE3);
+
+            proximoEntregaPedido = TimeSpan.FromMinutes(fila.proximaFinEntregaPedido);
+            tiempoEntregaPedido = TimeSpan.FromMinutes(fila.tiempoEntregaPedido);
+            minutosIniciales = TimeSpan.FromMinutes(480);
+            proximaCancelacionPedido = TimeSpan.FromMinutes(fila.proximoCancelacionPedido);
 
             //TimeSpan proximoFinEntrega = TimeSpan.FromMinutes(fila.proximaFinEntregaPedido);
 
@@ -605,7 +659,7 @@ namespace TP_5_v2
             fila.rndTipoPedido == 0 ? "X" : fila.rndTipoPedido.ToString(),
             fila.tipoPedidoPedido,
             fila.cantidadEmpanadas == 0 ? "X" : fila.cantidadEmpanadas.ToString(),
-            fila.empleadoDesignado, 
+            fila.empleadoDesignado,
             fila.estadoEmpleado1,
             fila.numeroPedidoEnPreparacion == 0 ? "X" : fila.numeroPedidoEnPreparacion.ToString(),
             fila.tipoPedidoEnPreparacion,
@@ -633,7 +687,7 @@ namespace TP_5_v2
             fila.ColaEmpleado3.Count(),
             tiempoLibreE3.ToString("hh':'mm':'ss"),
             //Cancelacion pedidos
-            
+
             fila.ColaPedidosAcancelar.Count(),
             proximaCancelacionPedido.ToString("hh':'mm':'ss"),
             fila.colaCancelados.Count(),
@@ -650,7 +704,13 @@ namespace TP_5_v2
 
             fila.estadoLocal,
             tiempoCierre.ToString("hh':'mm':'ss"),
-            tiempoInicioTurno.ToString("hh':'mm':'ss")
+            tiempoInicioTurno.ToString("hh':'mm':'ss"),
+            contador8a9,
+            contador9a10,
+            contador10a11,
+            contador11a12,
+            contador12a13,
+            contador13a14
 
 
             );
@@ -831,7 +891,7 @@ namespace TP_5_v2
 
             anterior = (Fila)actual.Clone();
             actual = (Fila)inicio.Clone();
-            actual.proximaLlegadaPedido();
+            actual.proximaLlegadaPedido(rnd);
             
         }
 
@@ -1157,6 +1217,82 @@ namespace TP_5_v2
                 actual.rndEntregaPedido = 0;
                 actual.tiempoEntregaPedido = 0;
 
+            }
+        }
+
+        public void contarPedidoEnHora(double reloj, string evento, int diaActual,int diaAnterior)
+        {
+            if (evento == "llegada_Pedido" && reloj <= 840 && diaActual == diaAnterior )
+            {
+                contadorDeTodasLosPedidos += 1;
+
+                if(reloj >= 480 && reloj < 540)
+                {
+                    contador8a9 += 1;
+                }
+                if (reloj >= 540 && reloj < 600)
+                {
+                    contador9a10 += 1;
+                }
+                if (reloj >= 600 && reloj < 660)
+                {
+                    contador10a11 += 1;
+                }
+                if (reloj >= 660 && reloj < 720)
+                {
+                    contador11a12 += 1;
+                }
+                if (reloj >= 720 && reloj < 780)
+                {
+                    contador12a13 += 1;
+                }
+                if (reloj >= 780 && reloj < 840)
+                {
+                    contador13a14 += 1;
+                }
+            }
+        }
+        private void btnNuevo_Click(object sender, EventArgs e)
+        {
+
+            //Limpiar tabla
+            this.dataGridView.DataSource = null;
+            this.dataGridView.Rows.Clear();
+            this.tabla.Clear();
+            this.tabla.Columns.Clear();
+            this.pedidosEntregando = "";
+            this.labelDeCarga.Text = "Cargando...";
+            this.labelDeCarga.ForeColor = Color.Black;
+            this.pictureBox1.Visible = false;
+        }
+
+        public void setearResultados()
+        {
+            this.txt8a9.Text = (Math.Round((contador8a9 / contadorDeTodasLosPedidos)*100,2)).ToString()+" %";
+            this.txt9a10.Text = (Math.Round((contador9a10 / contadorDeTodasLosPedidos) * 100, 2)).ToString() + " %";
+            this.txt10a11.Text = (Math.Round((contador10a11 / contadorDeTodasLosPedidos) * 100, 2)).ToString() + " %";
+            this.txt11a12.Text = (Math.Round((contador11a12 / contadorDeTodasLosPedidos) * 100, 2)).ToString() + " %";
+            this.txt12a13.Text = (Math.Round((contador12a13 / contadorDeTodasLosPedidos) * 100, 2)).ToString() + " %";
+            this.txt13a14.Text = (Math.Round((contador13a14 / contadorDeTodasLosPedidos) * 100, 2)).ToString() + " %";
+        }
+
+        private void chk_calcularEuler_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_calcularEuler.Checked == true)
+            {
+                h.Visible = true;
+                txtPasoH.Visible = true;
+                txtPasoH.Text = "0.05";
+                txtLimiteA_PrepPizza.Enabled = false;
+                txtLimiteB_PrepPizza.Enabled = false;
+            }
+            else
+            {
+                h.Visible = false;
+                txtPasoH.Visible = false;
+                txtPasoH.Text = "";
+                txtLimiteA_PrepPizza.Enabled = true;
+                txtLimiteB_PrepPizza.Enabled = true;
             }
         }
     }
